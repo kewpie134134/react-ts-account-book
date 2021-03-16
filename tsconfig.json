@@ -18,7 +18,9 @@
     "baseUrl": "src",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    // TODO: ★ 型定義を無視することになったが、これを将来的には修正したい
+    "noImplicitAny": false
   },
   "include": ["src"]
 }
