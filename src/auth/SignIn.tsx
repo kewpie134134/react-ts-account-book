@@ -20,7 +20,7 @@ const SignInButton = styled(Button)({
 })
 
 // SignIn コンポーネントでは history という情報を props として受け取る
-const SignIn = ({ history }) => {
+const SignIn = ({ history }: any) => {
   // AuthContext から signin 関数を受け取る
   const { signin } = useContext(AuthContext)
 
@@ -28,7 +28,7 @@ const SignIn = ({ history }) => {
   // AuthProvider で作成した signin 関数の引数に渡して、firebase 側にデータを登録する
   // アップデート後の情報（history）を渡すために、export 時には withRouter(SignIn) として
   // 渡している（こうすることで、handleSubmit 時にページ遷移を伴うことができる）。
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     // デフォルトの動作をここで一時停止させる(フォーム確認などを停止させる)
     event.preventDefault()
     const { email, password } = event.target.elements
