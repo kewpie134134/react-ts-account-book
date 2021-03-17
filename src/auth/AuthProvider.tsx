@@ -15,8 +15,7 @@ interface ContextProps {
 const AuthContext = React.createContext<Partial<ContextProps>>({})
 
 const AuthProvider: React.FC = ({ children }): JSX.Element => {
-  // TODO: ★ useState に入ってくる値の型を確認する必要がある(any を直したい)
-  const [currentUser, setCurrentUser] = useState<any>(null)
+  const [currentUser, setCurrentUser] = useState<object | null>(null)
 
   // サインイン処理
   // TODO: ★ history の型を精査したい
