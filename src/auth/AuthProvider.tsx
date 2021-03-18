@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { auth } from '../firebase/Firebase'
+import * as H from 'history'
 
 // createContext() でエラーを回避するためにインターフェースを作成
-// TODO: ★ interface で定義するメンバー情報を精査したい
 interface ContextProps {
   currentUser: object | null
   // TODO: ★ signin の型定義を精査したい
@@ -17,11 +17,10 @@ const AuthProvider: React.FC = ({ children }): JSX.Element => {
   const [currentUser, setCurrentUser] = useState<object | null>(null)
 
   // サインイン処理
-  // TODO: ★ history の型を精査したい
   const signin = async (
     email: string,
     password: string,
-    history: any,
+    history: H.History,
   ): Promise<void> => {
     try {
       await auth.signInWithEmailAndPassword(email, password)
