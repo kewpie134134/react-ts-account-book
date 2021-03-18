@@ -20,7 +20,6 @@ const SignInButton = styled(Button)({
 })
 
 // SignIn コンポーネントでは history という情報を props として受け取る
-// TODO: ★ any を直したい
 const SignIn = ({ history }: { history: object }) => {
   // AuthContext から signin 関数を受け取る
   const { signin } = useContext(AuthContext)
