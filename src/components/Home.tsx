@@ -3,6 +3,7 @@ import { db } from '../firebase/Firebase'
 import firebase from 'firebase/app'
 import { AuthContext } from 'auth/AuthProvider'
 
+// 配列の型を定義する型定義
 type ItemsType = {
   text: string
   amount: number
@@ -34,7 +35,7 @@ const Home: React.FC = () => {
 
   // AuthContext でログイン（サインイン）したユーザー情報を
   // useContext で取得する。
-  // TODO: ★ 型定義 any を精査したい
+  // TODO: ★ 型定義 any を精査したい（難解のため、将来検討）
   const { currentUser }: any = useContext(AuthContext)
 
   // 収入・出費データを取得するタイミングは useEffect を使用する。
@@ -61,11 +62,11 @@ const Home: React.FC = () => {
   // 取得したいデータの Income 用の関数 getIncomeData を作成。
   // Firebase からデータを取得し、アプリ上で表示させる
   const getIncomeData = () => {
+    console.log(typeof currentUser)
     // コレクション "incomeItems" のドキュメントを取得し、変数 "incomeData"に代入する
     const incomeData = db.collection('incomeItems')
     // uid が現在のユーザーと一致する場合、startOfMonth~endOfMonthの
     // ドキュメントを取得する
-
     incomeData
       // whewe 句の書き方はこれが定義されている
       .where('uid', '==', currentUser.uid)
