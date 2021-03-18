@@ -23,7 +23,6 @@ const SignInButton = styled(Button)({
 const SignIn = ({ history }: { history: object }) => {
   // AuthContext から signin 関数を受け取る
   const { signin } = useContext(AuthContext)
-  console.log(typeof history)
 
   // handleSubmit が実行されるときに、email と password の内容を
   // AuthProvider で作成した signin 関数の引数に渡して、firebase 側にデータを登録する
@@ -32,6 +31,7 @@ const SignIn = ({ history }: { history: object }) => {
   // TODO: ★ any を直したい
   const handleSubmit = (event: any) => {
     // デフォルトの動作をここで一時停止させる(フォーム確認などを停止させる)
+    console.log(event)
     event.preventDefault()
     const { email, password } = event.target.elements
     signin(email.value, password.value, history)
