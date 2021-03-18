@@ -33,7 +33,7 @@ const AuthProvider: React.FC = ({ children }): JSX.Element => {
   }
 
   // 初回アクセス時に認証済みかをチェックする
-  // TODO: ★ setCurrentUser が何をしているのか確認する
+  // setCurrentUser で一度ユーザーがセットされたか確認する
   useEffect(() => {
     auth.onAuthStateChanged(setCurrentUser)
   }, [])
