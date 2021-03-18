@@ -5,7 +5,7 @@ import * as H from 'history'
 // createContext() でエラーを回避するためにインターフェースを作成
 interface ContextProps {
   currentUser: object | null
-  // TODO: ★ signin の型定義を精査したい
+  // TODO: ★ signin の型定義を精査したい（難問のため、将来検討とする）
   signin: any
 }
 
