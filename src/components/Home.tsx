@@ -62,7 +62,6 @@ const Home: React.FC = () => {
   // 取得したいデータの Income 用の関数 getIncomeData を作成。
   // Firebase からデータを取得し、アプリ上で表示させる
   const getIncomeData = () => {
-    console.log(typeof currentUser)
     // コレクション "incomeItems" のドキュメントを取得し、変数 "incomeData"に代入する
     const incomeData = db.collection('incomeItems')
     // uid が現在のユーザーと一致する場合、startOfMonth~endOfMonthの
