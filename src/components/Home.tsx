@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase/Firebase'
 import firebase from 'firebase/app'
 import { AuthContext } from 'auth/AuthProvider'
+import { Header } from 'components/Header'
 
 // 配列の型を定義する型定義
 type ItemsType = {
@@ -47,6 +48,24 @@ const Home: React.FC = () => {
     // TODO：ここで date が本当に必要か確認
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date])
+
+  // 月ごとにデータを表示させるために、、ヘッダーに情報を渡すようにする。
+  // date はユーザーがヘッダーの「前月」、「次月」を選択すると更新される
+  // なお、setPrevMonth と setNextMonth は Header.js で使うので、props で渡してあげる必要がある。
+  const setPrevMonth = () => {
+    const year = date.getFullYear()
+    const month = date.getMonth() - 1
+    const day = date.getDate()
+    setDate(new Date(year, month, day))
+  }
+
+  // 次月
+  const setNextMonth = () => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    setDate(new Date(year, month, day))
+  }
 
   // 月の最初の日付を取得する
   const startOfMonth = (date: Date) => {
@@ -173,8 +192,14 @@ const Home: React.FC = () => {
   // };
 
   return (
-    <div>
+    <div className="home">
       <h1>Home</h1>
+      {/* props で date と setPrevMonth、setNextMonth を Header.js に渡す */}
+      <Header
+        date={date}
+        setPrevMonth={setPrevMonth}
+        setNextMonth={setNextMonth}
+      />
     </div>
   )
 }
