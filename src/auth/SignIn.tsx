@@ -19,6 +19,13 @@ const SignInButton = styled(Button)({
   },
 })
 
+/**
+ * ユーザーログイン画面の表示、ログイン内容を取得する
+ * handleSubmit が実行されるとき、入力された email と password の内容を、
+ * AuthProvider で作った login 関数の引数に渡してデータが登録される。
+ * アップデート後の history(情報)を渡すために、export で withRouter(Login) を使っている。
+ */
+
 // SignIn コンポーネントでは history という情報を props として受け取る
 const SignIn = ({ history }: { history: object }) => {
   // AuthContext から signin 関数を受け取る
@@ -31,9 +38,10 @@ const SignIn = ({ history }: { history: object }) => {
   // TODO: ★ any を直したい
   const handleSubmit = (event: any) => {
     // デフォルトの動作をここで一時停止させる(フォーム確認などを停止させる)
-    console.log(event)
     event.preventDefault()
+    // email と password をエレメントから取得する
     const { email, password } = event.target.elements
+    // AuthProvider の signin 関数に引数を渡す
     signin(email.value, password.value, history)
   }
 
@@ -55,4 +63,5 @@ const SignIn = ({ history }: { history: object }) => {
   )
 }
 
+// history(情報)を渡すために、export で withRouter(Signup) を使う
 export default withRouter(SignIn)
