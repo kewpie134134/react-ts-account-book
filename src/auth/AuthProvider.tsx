@@ -4,8 +4,7 @@ import { auth } from '../firebase/Firebase'
 // createContext() でエラーを回避するためにインターフェースを作成
 // TODO: ★ interface で定義するメンバー情報を精査したい
 interface ContextProps {
-  // TODO: ★ currentUser の型定義を精査したい
-  currentUser: any
+  currentUser: object | null
   // TODO: ★ signin の型定義を精査したい
   signin: any
 }
