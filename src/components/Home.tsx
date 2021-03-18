@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const [inputText, setInputText] = useState<string>('')
   const [inputAmount, setInputAmount] = useState<number>(0)
   const [incomeItems, setIncomeItems] = useState<ItemsType[]>([])
-  const [expenseItems, setExpenseItems] = useState([])
+  const [expenseItems, setExpenseItems] = useState<ItemsType[]>([])
   const [type, setType] = useState('inc')
   const [date, setDate] = useState(new Date())
 
@@ -28,7 +28,6 @@ const Home: React.FC = () => {
   console.log(typeof setInputAmount)
   console.log(typeof incomeItems)
   console.log(typeof expenseItems)
-  console.log(typeof setExpenseItems)
   console.log(typeof setType)
   console.log(typeof type)
   console.log(typeof setDate)
@@ -42,6 +41,7 @@ const Home: React.FC = () => {
   // "date" が更新されるたび実行してほしいため、useEffect を使用する。
   useEffect(() => {
     getIncomeData()
+    getExpenseData()
     // date の値を確認してデータを取得するため、date は必要。
     // TODO：ここで date が本当に必要か確認    // date の値を確認してデータを取得するため、date は必要。
     // TODO：ここで date が本当に必要か確認
@@ -124,6 +124,53 @@ const Home: React.FC = () => {
   //       ])
   //     })
   // }
+
+  // Firestore からデータをとってきてアプリ上で表示させる。
+  // 取得したいデータの Expense 用の関数 getExpenseData を作成する。
+  // 内容は getExpenseDataと同じ
+  const getExpenseData = () => {
+    const expenseData = db.collection('expenseItems')
+    expenseData
+      .where('uid', '==', currentUser.uid)
+      .orderBy('date')
+      .startAt(startOfMonth(date))
+      .endAt(endOfMonth(date))
+      .onSnapshot((query) => {
+        const expenseItems: ItemsType[] = []
+        query.forEach((doc) => {
+          const docData = doc.data()
+          expenseItems.push({
+            amount: docData.amount,
+            text: docData.text,
+            uid: docData.uid,
+            date: docData.date,
+            docId: doc.id,
+          })
+        })
+        setExpenseItems(expenseItems)
+      })
+  }
+
+  // FireStore に出費データを追加する。
+  // 内容は addIncome と同じ。
+  //   const addExpense = (text, amount) => {
+  //   const docId = Math.random().toString(32).substring(2);
+  //   const date = firebase.firestore.Timestamp.now();
+  //   db.collection("expenseItems")
+  //     .doc(docId)
+  //     .set({
+  //       uid: currentUser.uid,
+  //       text,
+  //       amount,
+  //       date,
+  //     })
+  //     .then((response) => {
+  //       setExpenseItems([
+  //         ...expenseItems,
+  //         { text: inputText, amount: inputAmount, docId: docId, date: date },
+  //       ]);
+  //     });
+  // };
 
   return (
     <div>
