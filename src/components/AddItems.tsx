@@ -57,14 +57,16 @@ export const AddItem = ({
   }
 
   // 商品の金額内容が編集されたら呼ばれるハンドラー
-  const inputAmountHandler = (event: any) => {
+  const inputAmountHandler = (event: { target: HTMLInputElement }) => {
     // amount(金額) はあとで計算処理を行うため、parseInt で値を数値化する
     if (event.target.value) {
       // amount に数値（文字列）がある場合
       setInputAmount(parseInt(event.target.value))
     } else {
       // amount が空の場合
-      setInputAmount(event.target.value)
+      // TODO: ★ 値が NaN になるため、Warning が表示される。
+      // -> string に型変換するなどの修正をしたい。
+      setInputAmount(parseInt(event.target.value))
     }
   }
 
