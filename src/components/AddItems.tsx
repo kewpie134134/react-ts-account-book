@@ -52,7 +52,7 @@ export const AddItem = ({
   }
 
   // 家計簿の内容が編集されたら呼ばれるハンドラー
-  const inputTextHandler = (event: any) => {
+  const inputTextHandler = (event: { target: HTMLInputElement }) => {
     setInputText(event.target.value)
   }
 
