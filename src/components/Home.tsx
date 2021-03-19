@@ -4,9 +4,10 @@ import firebase from 'firebase/app'
 import { AuthContext } from 'auth/AuthProvider'
 import { Header } from 'components/Header'
 import { AddItem } from './AddItems'
+import { ItemsList } from './ItemsList'
 
 // 配列の型を定義する型定義
-type ItemsType = {
+export type ItemsType = {
   text: string
   amount: number
   docId: string
@@ -22,10 +23,6 @@ const Home: React.FC = () => {
   const [expenseItems, setExpenseItems] = useState<ItemsType[]>([])
   const [type, setType] = useState('income')
   const [date, setDate] = useState(new Date())
-
-  // コンパイルエラーとなるため、一時的にログ出力する
-  console.log(typeof incomeItems)
-  console.log(typeof expenseItems)
 
   // AuthContext でログイン（サインイン）したユーザー情報を
   // useContext で取得する。
@@ -139,6 +136,7 @@ const Home: React.FC = () => {
       // セットした値を react 側の incomeItems に更新する
       .then(() => {
         setIncomeItems([
+          ...incomeItems,
           {
             text: inputText,
             amount: inputAmount,
@@ -148,6 +146,11 @@ const Home: React.FC = () => {
           },
         ])
       })
+  }
+
+  // FireStore 上の incomeItems コレクションで、docId に該当するアイテムを削除する。
+  const deleteIncome = (docId: string) => {
+    db.collection('incomeItems').doc(docId).delete()
   }
 
   // Firestore からデータをとってきてアプリ上で表示させる。
@@ -191,6 +194,7 @@ const Home: React.FC = () => {
       })
       .then(() => {
         setExpenseItems([
+          ...expenseItems,
           {
             text: inputText,
             amount: inputAmount,
@@ -200,6 +204,11 @@ const Home: React.FC = () => {
           },
         ])
       })
+  }
+
+  // FireStore 上の expenseItems コレクションにある docId に該当するアイテムを削除する。
+  const deleteExpense = (docId: string) => {
+    db.collection('expenseItems').doc(docId).delete()
   }
 
   return (
@@ -222,6 +231,15 @@ const Home: React.FC = () => {
         setInputAmount={setInputAmount}
         type={type}
         setType={setType}
+        selectedMonth={selectedMonth}
+        thisMonth={thisMonth}
+      />
+      <ItemsList
+        deleteIncome={deleteIncome}
+        deleteExpense={deleteExpense}
+        // incomeTotal={incomeTotal}
+        incomeItems={incomeItems}
+        expenseItems={expenseItems}
         selectedMonth={selectedMonth}
         thisMonth={thisMonth}
       />
