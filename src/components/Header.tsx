@@ -29,9 +29,9 @@ type HeaderProps = {
   setNextMonth: () => void
 }
 
-// Home.js からの props を受け取り、Header.js 側で使用する。
+// Home.tsx からの props を受け取り、Header.js 側で使用する。
 export const Header = ({ date, setPrevMonth, setNextMonth }: HeaderProps) => {
-  // Home.js 側から与えられた今日の日付（date）から、
+  // Home.tsx 側から与えられた今日の日付（date）から、
   // Header.js で表示させるカレンダーの今日の日付を準備する。
   const today = date
   const year = today.getFullYear()
