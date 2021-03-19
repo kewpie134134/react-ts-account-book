@@ -82,13 +82,13 @@ export const AddItem = ({
       // 正しい内容が入力されていない場合、エラーを表示する
       alert('正しい内容を入力してください')
     } else if (type === 'income') {
-      // income タイプなら、Home.js で定義した addIncome の引数に、
+      // income タイプなら、Home.tsx で定義した addIncome の引数に、
       // ユーザーの入力内容 inputText と inputAmountを渡す
       addIncome(inputText, inputAmount)
       // 値を渡したら、入力フォーム内容はリセットする
       reset()
     } else if (type === 'expense') {
-      // expense タイプなら、Home.js で定義した addExpense の引数に、
+      // expense タイプなら、Home.tsx で定義した addExpense の引数に、
       // ユーザーの入力内容 inputText と inputAmount を渡す
       addExpense(inputText, inputAmount)
       // 値を渡したら、入力フォーム内容はリセットする

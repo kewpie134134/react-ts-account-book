@@ -45,7 +45,7 @@ const Home: React.FC = () => {
 
   // 月ごとにデータを表示させるために、、ヘッダーに情報を渡すようにする。
   // date はユーザーがヘッダーの「前月」、「次月」を選択すると更新される
-  // なお、setPrevMonth と setNextMonth は Header.js で使うので、props で渡してあげる必要がある。
+  // なお、setPrevMonth と setNextMonth は Header.tsx で使うので、props で渡してあげる必要がある。
   const setPrevMonth = () => {
     const year = date.getFullYear()
     const month = date.getMonth() - 1
@@ -206,7 +206,7 @@ const Home: React.FC = () => {
     <div className="home">
       <h1>Home</h1>
       <div className="top">
-        {/* props で date と setPrevMonth、setNextMonth を Header.js に渡す */}
+        {/* props で date と setPrevMonth、setNextMonth を Header.tsx に渡す */}
         <Header
           date={date}
           setPrevMonth={setPrevMonth}
