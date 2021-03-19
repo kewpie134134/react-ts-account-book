@@ -3,6 +3,7 @@ import { db } from '../firebase/Firebase'
 import firebase from 'firebase/app'
 import { AuthContext } from 'auth/AuthProvider'
 import { Header } from 'components/Header'
+import { AddItem } from './AddItems'
 
 // 配列の型を定義する型定義
 type ItemsType = {
@@ -19,19 +20,12 @@ const Home: React.FC = () => {
   const [inputAmount, setInputAmount] = useState<number>(0)
   const [incomeItems, setIncomeItems] = useState<ItemsType[]>([])
   const [expenseItems, setExpenseItems] = useState<ItemsType[]>([])
-  const [type, setType] = useState('inc')
+  const [type, setType] = useState('income')
   const [date, setDate] = useState(new Date())
 
-  // コンパイルエラーのため、一時的にconsole.log で表示させる
-  console.log(typeof inputText)
-  console.log(typeof setInputText)
-  console.log(typeof inputAmount)
-  console.log(typeof setInputAmount)
+  // コンパイルエラーとなるため、一時的にログ出力する
   console.log(typeof incomeItems)
   console.log(typeof expenseItems)
-  console.log(typeof setType)
-  console.log(typeof type)
-  console.log(typeof setDate)
 
   // AuthContext でログイン（サインイン）したユーザー情報を
   // useContext で取得する。
@@ -77,6 +71,13 @@ const Home: React.FC = () => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0)
   }
 
+  // 指定した月と今月の情報を親コンポーネント（Home.tsx）から渡すため、
+  // props で渡すように準備する（リストでも使用する）。
+  // なお、値は UI に表示指せるために、値に +1 している。
+  const selectedMonth = date.getMonth() + 1
+  const today = new Date()
+  const thisMonth = today.getMonth() + 1
+
   // Firestore からデータをとってきてアプリ上で表示させる。
   // 取得したいデータの Income 用の関数 getIncomeData を作成。
   // Firebase からデータを取得し、アプリ上で表示させる
@@ -112,37 +113,42 @@ const Home: React.FC = () => {
       })
   }
 
-  // // Firestore に収入データを追加する
-  // // 収入 income 用の関数 addIncome を用意する。
-  // // 引数にはユーザーが入力した text と amount を渡す。
-  // const addIncome = (text: string, amount: number) => {
-  //   // docId をこちら側で、ランダム文字列を使用して作成する。
-  //   // docId はユーザーが削除ボタン選択時、データを削除するときの値として使用。
-  //   // （react 側で連動させたいので、フロント側で手動で作成する。）
-  //   // （上記の時、数値だとエラーになるため、文字列を使用している。）
-  //   // ※ 手動で作成しない場合は、".set" や ".add" で自動生成可能。
-  //   const docId = Math.random().toString(32).substring(2)
-  //   // 収入リストが順番に並べられるようにタイムスタンプを作成
-  //   // -> 入力時間が登録される firebase の関数。
-  //   const date = firebase.firestore.Timestamp.now()
-  //   // どこの collection の document に追加するかは、firebase の関数で定義。
-  //   db.collection('incomeItems')
-  //     .doc(docId)
-  //     .set({
-  //       // セットしたいデータを配列として追加する
-  //       uid: currentUser.uid,
-  //       text,
-  //       amount,
-  //       date,
-  //     })
-  //     // セットした値を react 側の incomeItems に更新する
-  //     .then(() => {
-  //       setIncomeItems([
-  //         ...incomeItems,
-  //         { text: inputText, amount: inputAmount, docId: docId, date: date },
-  //       ])
-  //     })
-  // }
+  // Firestore に収入データを追加する
+  // 収入 income 用の関数 addIncome を用意する。
+  // 引数にはユーザーが入力した text と amount を渡す。
+  const addIncome = (text: string, amount: number) => {
+    // docId をこちら側で、ランダム文字列を使用して作成する。
+    // docId はユーザーが削除ボタン選択時、データを削除するときの値として使用。
+    // （react 側で連動させたいので、フロント側で手動で作成する。）
+    // （上記の時、数値だとエラーになるため、文字列を使用している。）
+    // ※ 手動で作成しない場合は、".set" や ".add" で自動生成可能。
+    const docId = Math.random().toString(32).substring(2)
+    // 収入リストが順番に並べられるようにタイムスタンプを作成
+    // -> 入力時間が登録される firebase の関数。
+    const date = firebase.firestore.Timestamp.now()
+    // どこの collection の document に追加するかは、firebase の関数で定義。
+    db.collection('incomeItems')
+      .doc(docId)
+      .set({
+        // セットしたいデータを配列として追加する
+        uid: currentUser.uid,
+        text,
+        amount,
+        date,
+      })
+      // セットした値を react 側の incomeItems に更新する
+      .then(() => {
+        setIncomeItems([
+          {
+            text: inputText,
+            amount: inputAmount,
+            docId: docId,
+            date: date,
+            uid: currentUser.uid,
+          },
+        ])
+      })
+  }
 
   // Firestore からデータをとってきてアプリ上で表示させる。
   // 取得したいデータの Expense 用の関数 getExpenseData を作成する。
@@ -172,33 +178,52 @@ const Home: React.FC = () => {
 
   // FireStore に出費データを追加する。
   // 内容は addIncome と同じ。
-  //   const addExpense = (text, amount) => {
-  //   const docId = Math.random().toString(32).substring(2);
-  //   const date = firebase.firestore.Timestamp.now();
-  //   db.collection("expenseItems")
-  //     .doc(docId)
-  //     .set({
-  //       uid: currentUser.uid,
-  //       text,
-  //       amount,
-  //       date,
-  //     })
-  //     .then((response) => {
-  //       setExpenseItems([
-  //         ...expenseItems,
-  //         { text: inputText, amount: inputAmount, docId: docId, date: date },
-  //       ]);
-  //     });
-  // };
+  const addExpense = (text: string, amount: number) => {
+    const docId = Math.random().toString(32).substring(2)
+    const date = firebase.firestore.Timestamp.now()
+    db.collection('expenseItems')
+      .doc(docId)
+      .set({
+        uid: currentUser.uid,
+        text,
+        amount,
+        date,
+      })
+      .then(() => {
+        setExpenseItems([
+          {
+            text: inputText,
+            amount: inputAmount,
+            docId: docId,
+            date: date,
+            uid: currentUser.uid,
+          },
+        ])
+      })
+  }
 
   return (
     <div className="home">
       <h1>Home</h1>
-      {/* props で date と setPrevMonth、setNextMonth を Header.js に渡す */}
-      <Header
-        date={date}
-        setPrevMonth={setPrevMonth}
-        setNextMonth={setNextMonth}
+      <div className="top">
+        {/* props で date と setPrevMonth、setNextMonth を Header.js に渡す */}
+        <Header
+          date={date}
+          setPrevMonth={setPrevMonth}
+          setNextMonth={setNextMonth}
+        />
+      </div>
+      <AddItem
+        addIncome={addIncome}
+        addExpense={addExpense}
+        inputText={inputText}
+        setInputText={setInputText}
+        inputAmount={inputAmount}
+        setInputAmount={setInputAmount}
+        type={type}
+        setType={setType}
+        selectedMonth={selectedMonth}
+        thisMonth={thisMonth}
       />
     </div>
   )
