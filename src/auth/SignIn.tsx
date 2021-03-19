@@ -35,7 +35,7 @@ const SignIn = ({ history }: { history: object }) => {
   // AuthProvider で作成した signin 関数の引数に渡して、firebase 側にデータを登録する
   // アップデート後の情報（history）を渡すために、export 時には withRouter(SignIn) として
   // 渡している（こうすることで、handleSubmit 時にページ遷移を伴うことができる）。
-  // TODO: ★ any を直したい
+  // TODO: ★ 型定義を直したい
   const handleSubmit = (event: any) => {
     // デフォルトの動作をここで一時停止させる(フォーム確認などを停止させる)
     event.preventDefault()

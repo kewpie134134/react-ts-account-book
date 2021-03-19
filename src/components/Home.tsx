@@ -26,7 +26,7 @@ const Home: React.FC = () => {
 
   // AuthContext でログイン（サインイン）したユーザー情報を
   // useContext で取得する。
-  // TODO: ★ 型定義 any を精査したい（難解のため、将来検討）
+  // TODO: ★ 型定義 を精査したい（難解のため、将来検討）
   const { currentUser }: any = useContext(AuthContext)
 
   // 収入・出費データを取得するタイミングは useEffect を使用する。
