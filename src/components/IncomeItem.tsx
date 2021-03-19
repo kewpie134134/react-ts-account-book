@@ -1,6 +1,8 @@
+import { ItemsType } from 'components/Home'
+
 type IncomeItemProps = {
-  deleteIncome: any
-  incomeItem: any
+  deleteIncome: (docId: string) => void
+  incomeItem: ItemsType
   incomeText: string
   incomeAmount: number
   thisMonth: number

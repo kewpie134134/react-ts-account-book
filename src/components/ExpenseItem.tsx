@@ -1,6 +1,8 @@
+import { ItemsType } from 'components/Home'
+
 type ExpenseItemProps = {
-  deleteExpense: any
-  expenseItem: any
+  deleteExpense: (docId: string) => void
+  expenseItem: ItemsType
   expenseText: string
   expenseAmount: number
   // incomeTotal: any

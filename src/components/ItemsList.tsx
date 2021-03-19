@@ -10,8 +10,8 @@ import { ExpenseItem } from 'components/ExpenseItem'
 type ItemsListProps = {
   deleteIncome: (docId: string) => void
   deleteExpense: (docId: string) => void
-  incomeItems: any
-  expenseItems: any
+  incomeItems: Array<ItemsType>
+  expenseItems: Array<ItemsType>
   // incomeTotal: any
   selectedMonth: number
   thisMonth: number
