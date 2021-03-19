@@ -47,7 +47,7 @@ export const AddItem = ({
   thisMonth,
 }: AddItemProps) => {
   // 収入か出費かの切り替えが行われたら呼ばれるハンドラー
-  const typeHandler = (event: any) => {
+  const typeHandler = (event: { target: HTMLSelectElement }) => {
     setType(event.target.value)
   }
 
