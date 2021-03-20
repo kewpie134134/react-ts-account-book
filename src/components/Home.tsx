@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase/Firebase'
 import firebase from 'firebase/app'
 import { AuthContext } from 'auth/AuthProvider'
+import { TotalAmount } from 'components/TotalAmount'
+import { totalCalcIncome, totalCalcExpense } from 'components/TotalCaluculation'
 import { Header } from 'components/Header'
 import { AddItem } from './AddItems'
 import { ItemsList } from './ItemsList'
@@ -153,6 +155,9 @@ const Home: React.FC = () => {
     db.collection('incomeItems').doc(docId).delete()
   }
 
+  // % 合計と合計金を表示する
+  const incomeTotal = totalCalcIncome(incomeItems)
+
   // Firestore からデータをとってきてアプリ上で表示させる。
   // 取得したいデータの Expense 用の関数 getExpenseData を作成する。
   // 内容は getExpenseDataと同じ
@@ -211,6 +216,9 @@ const Home: React.FC = () => {
     db.collection('expenseItems').doc(docId).delete()
   }
 
+  // % 合計と合計金を表示する
+  const expenseTotal = totalCalcExpense(expenseItems)
+
   return (
     <div className="home">
       <h1>Home</h1>
@@ -221,6 +229,7 @@ const Home: React.FC = () => {
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
         />
+        <TotalAmount incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
       </div>
       <AddItem
         addIncome={addIncome}
@@ -238,6 +247,7 @@ const Home: React.FC = () => {
         deleteIncome={deleteIncome}
         deleteExpense={deleteExpense}
         // incomeTotal={incomeTotal}
+        // expenseTotal={expenseTotal}
         incomeItems={incomeItems}
         expenseItems={expenseItems}
         selectedMonth={selectedMonth}
