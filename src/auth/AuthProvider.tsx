@@ -9,7 +9,7 @@ import * as H from 'history'
  */
 
 // createContext() でエラーを回避するためにインターフェースを作成
-interface ContextProps {
+type ContextType = {
   currentUser: object | null
   // TODO: ★ signin の型定義を精査したい（難問のため、将来検討とする）
   signin: any
@@ -18,7 +18,7 @@ interface ContextProps {
 // Context の作成
 // React.createContext() では初期値が空のためエラーが返却されるので、
 // 以下のようにして型定義をしてエラーを回避。
-const AuthContext = React.createContext<Partial<ContextProps>>({})
+const AuthContext = React.createContext<Partial<ContextType>>({})
 
 // useContext を使用して、chilren (各ページ)で使用できるようにする
 const AuthProvider: React.FC = ({ children }): JSX.Element => {

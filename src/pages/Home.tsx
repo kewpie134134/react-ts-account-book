@@ -8,7 +8,6 @@ import { Header } from 'components/Header'
 import { Balance } from 'components/Balance'
 import { AddItem } from 'components/AddItems'
 import { ItemsList } from 'components/ItemsList'
-import { Footer } from 'components/Footer'
 
 // 配列の型を定義する型定義
 export type ItemsType = {
@@ -255,7 +254,6 @@ const Home: React.FC = () => {
         selectedMonth={selectedMonth}
         thisMonth={thisMonth}
       />
-      <Footer />
     </div>
   )
 }

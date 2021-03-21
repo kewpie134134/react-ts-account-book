@@ -10,14 +10,14 @@ import SignIn from 'auth/SignIn'
  */
 
 // 型定義をしないと App.tsx 側でエラーとなるので、定義
-interface privateContextProps {
+type privateRouteType = {
   exact: true
   path: string
   component: React.FC<{}>
 }
 
 // exact, path の情報を ...rest を経由して受けとる
-const PrivateRoute = ({ component, ...rest }: privateContextProps) => {
+const PrivateRoute = ({ component, ...rest }: privateRouteType) => {
   // AuthCotext から currentUser を受け取る
   const { currentUser } = useContext(AuthContext)
 

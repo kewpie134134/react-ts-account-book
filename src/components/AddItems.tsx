@@ -18,7 +18,7 @@ const AddButton = styled(Button)({
 })
 
 // AddItem の props 型定義
-type AddItemProps = {
+type AddItemType = {
   addIncome: (text: string, amount: number) => void
   addExpense: (text: string, amount: number) => void
   inputText: string
@@ -45,7 +45,7 @@ export const AddItem = ({
   setType,
   selectedMonth,
   thisMonth,
-}: AddItemProps) => {
+}: AddItemType) => {
   // 収入か出費かの切り替えが行われたら呼ばれるハンドラー
   const typeHandler = (event: { target: HTMLSelectElement }) => {
     setType(event.target.value)
