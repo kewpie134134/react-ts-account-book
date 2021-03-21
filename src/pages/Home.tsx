@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase/Firebase'
 import firebase from 'firebase/app'
@@ -9,6 +10,59 @@ import { Balance } from 'components/Balance'
 import { AddItem } from 'components/AddItems'
 import { ItemsList } from 'components/ItemsList'
 import { Footer } from 'components/Footer'
+import {
+  AppBar,
+  Badge,
+  CssBaseline,
+  IconButton,
+  makeStyles,
+  Toolbar,
+  Typography,
+} from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+
+const drawerWidth: number = 240
+
+const useStyles = makeStyles((theme: any) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+}))
 
 // 配列の型を定義する型定義
 export type ItemsType = {
@@ -28,10 +82,24 @@ const Home: React.FC = () => {
   const [type, setType] = useState('income')
   const [date, setDate] = useState(new Date())
 
+  // Material-UI で使用する UI パーツのための設定
+  const [open, setOpen] = useState<boolean>(false)
+
+  // Material-UI を使用するための宣言
+  const classes = useStyles()
+
   // AuthContext でログイン（サインイン）したユーザー情報を
   // useContext で取得する。
   // TODO: ★ 型定義 を精査したい（難解のため、将来検討）
   const { currentUser }: any = useContext(AuthContext)
+
+  // Material-UI で、左メニューの開閉をハンドリングする関数
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
+  // const handleDrawerClose = () => {
+  //   setOpen(false)
+  // }
 
   // 収入・出費データを取得するタイミングは useEffect を使用する。
   // "date" が更新されるたび実行してほしいため、useEffect を使用する。
@@ -222,8 +290,45 @@ const Home: React.FC = () => {
   const expenseTotal = totalCalcExpense(expenseItems)
 
   return (
-    <div className="home">
-      <h1>Home</h1>
+    <div className={classes.root}>
+      <CssBaseline />
+
+      {/* Home 画面の上部をデザイン */}
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(
+              classes.menuButton,
+              open && classes.menuButtonHidden,
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            Home
+          </Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={0} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      {/* メインページをデザイン */}
       <div className="top">
         {/* props で date と setPrevMonth、setNextMonth を Header.tsx に渡す */}
         <Header
