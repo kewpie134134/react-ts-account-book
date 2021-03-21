@@ -5,7 +5,7 @@ type ExpenseItemProps = {
   expenseItem: ItemsType
   expenseText: string
   expenseAmount: number
-  incomeTotal: any
+  incomeTotal: number
   thisMonth: number
   selectedMonth: number
 }
