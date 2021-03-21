@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import { withRouter } from 'react-router'
 import { AuthContext } from './AuthProvider'
 import 'firebase/auth'
-import { Footer } from 'components/Footer'
 
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
@@ -15,6 +14,20 @@ import Link from '@material-ui/core/Link'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Checkbox, TextField } from '@material-ui/core'
+
+// コピーライトを作成
+const Copyright = () => {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {`Copyright © `}
+      <Link color="inherit" href="https://react-ts-account-book.web.app/">
+        家計簿アプリ
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  )
+}
 
 // Material-UI を用いるための宣言
 const useStyles = makeStyles((theme: any) => ({
@@ -119,7 +132,7 @@ const SignIn = ({ history }: { history: object }) => {
           </Grid>
         </form>
         <Box mt={8}>
-          <Footer />
+          <Copyright />
         </Box>
       </div>
     </Container>

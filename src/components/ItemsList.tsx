@@ -7,7 +7,7 @@ import { ExpenseItem } from 'components/ExpenseItem'
  * items に対して map を行い、IncomeItem と ExpenseItem をそれぞれ表示する。
  */
 
-type ItemsListProps = {
+type ItemsListType = {
   deleteIncome: (docId: string) => void
   deleteExpense: (docId: string) => void
   incomeItems: Array<ItemsType>
@@ -25,7 +25,7 @@ export const ItemsList = ({
   incomeTotal,
   selectedMonth,
   thisMonth,
-}: ItemsListProps) => {
+}: ItemsListType) => {
   return (
     <div>
       <div>

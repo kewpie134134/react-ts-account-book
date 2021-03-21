@@ -1,6 +1,6 @@
 import { ItemsType } from 'pages/Home'
 
-type IncomeItemProps = {
+type IncomeItemType = {
   deleteIncome: (docId: string) => void
   incomeItem: ItemsType
   incomeText: string
@@ -19,7 +19,7 @@ export const IncomeItem = ({
   incomeAmount,
   thisMonth,
   selectedMonth,
-}: IncomeItemProps) => {
+}: IncomeItemType) => {
   // incomeItem.docId を渡せば Home.tsx 上で docId に該当するアイテムが削除される
   const deleteHandler = () => {
     deleteIncome(incomeItem.docId)
