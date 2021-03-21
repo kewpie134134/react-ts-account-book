@@ -12,8 +12,7 @@ type ItemsListProps = {
   deleteExpense: (docId: string) => void
   incomeItems: Array<ItemsType>
   expenseItems: Array<ItemsType>
-  // incomeTotal: any
-  // expenseTotal:any
+  incomeTotal: number
   selectedMonth: number
   thisMonth: number
 }
@@ -23,8 +22,7 @@ export const ItemsList = ({
   deleteExpense,
   incomeItems,
   expenseItems,
-  // incomeTotal,
-  // expenseTotal,
+  incomeTotal,
   selectedMonth,
   thisMonth,
 }: ItemsListProps) => {
@@ -56,8 +54,7 @@ export const ItemsList = ({
               expenseAmount={expenseItem.amount}
               expenseItem={expenseItem}
               key={expenseItem.docId}
-              // incomeTotal={incomeTotal}
-              // expenseTotal={expenseTotal}
+              incomeTotal={incomeTotal}
               selectedMonth={selectedMonth}
               thisMonth={thisMonth}
             />

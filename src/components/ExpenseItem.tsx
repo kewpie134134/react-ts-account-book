@@ -5,8 +5,7 @@ type ExpenseItemProps = {
   expenseItem: ItemsType
   expenseText: string
   expenseAmount: number
-  // incomeTotal: any
-  // expenseTotal:any
+  incomeTotal: any
   thisMonth: number
   selectedMonth: number
 }
@@ -16,7 +15,7 @@ export const ExpenseItem = ({
   expenseItem,
   expenseText,
   expenseAmount,
-  // incomeTotal,
+  incomeTotal,
   thisMonth,
   selectedMonth,
 }: ExpenseItemProps) => {
@@ -24,20 +23,20 @@ export const ExpenseItem = ({
     deleteExpense(expenseItem.docId)
   }
 
-  // const percentage = () => {
-  //   if (incomeTotal > 0) {
-  //     return `${Math.round((expenseAmount / incomeTotal) * 100)} %`
-  //   } else {
-  //     return '---'
-  //   }
-  // }
+  const percentage = () => {
+    if (incomeTotal > 0) {
+      return `${Math.round((expenseAmount / incomeTotal) * 100)} %`
+    } else {
+      return '---'
+    }
+  }
 
   const showThisMonth = () => {
     return (
       <li>
         <div>{expenseText}</div>
         <div>-{Number(expenseAmount).toLocaleString()}円</div>
-        {/* <span>{percentage()}</span> */}
+        <span>{percentage()}</span>
         <button onClick={deleteHandler}>×</button>
       </li>
     )
@@ -48,7 +47,7 @@ export const ExpenseItem = ({
       <li>
         <div>{expenseText}</div>
         <div>-{Number(expenseAmount).toLocaleString()}円</div>
-        {/* <span>{percentage()}</span> */}
+        <span>{percentage()}</span>
       </li>
     )
   }

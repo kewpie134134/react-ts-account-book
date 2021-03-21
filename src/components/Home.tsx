@@ -246,8 +246,7 @@ const Home: React.FC = () => {
       <ItemsList
         deleteIncome={deleteIncome}
         deleteExpense={deleteExpense}
-        // incomeTotal={incomeTotal}
-        // expenseTotal={expenseTotal}
+        incomeTotal={incomeTotal}
         incomeItems={incomeItems}
         expenseItems={expenseItems}
         selectedMonth={selectedMonth}
