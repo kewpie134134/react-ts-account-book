@@ -1,4 +1,4 @@
-import { ItemsType } from 'components/Home'
+import { ItemsType } from 'pages/Home'
 
 /**
  * TotalCalucuration.ts で関数 totalCalcIncome() と totalCalcExpense() を作成し、

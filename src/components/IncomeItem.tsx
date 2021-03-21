@@ -1,4 +1,4 @@
-import { ItemsType } from 'components/Home'
+import { ItemsType } from 'pages/Home'
 
 type IncomeItemProps = {
   deleteIncome: (docId: string) => void
