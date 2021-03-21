@@ -5,6 +5,7 @@ import { AuthContext } from 'auth/AuthProvider'
 import { TotalAmount } from 'components/TotalAmount'
 import { totalCalcIncome, totalCalcExpense } from 'components/TotalCaluculation'
 import { Header } from 'components/Header'
+import { Balance } from 'components/Balance'
 import { AddItem } from './AddItems'
 import { ItemsList } from './ItemsList'
 
@@ -229,6 +230,7 @@ const Home: React.FC = () => {
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
         />
+        <Balance incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
         <TotalAmount incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
       </div>
       <AddItem
