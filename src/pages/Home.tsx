@@ -6,8 +6,8 @@ import { TotalAmount } from 'components/TotalAmount'
 import { totalCalcIncome, totalCalcExpense } from 'components/TotalCaluculation'
 import { Header } from 'components/Header'
 import { Balance } from 'components/Balance'
-import { AddItem } from './AddItems'
-import { ItemsList } from './ItemsList'
+import { AddItem } from 'components/AddItems'
+import { ItemsList } from 'components/ItemsList'
 
 // 配列の型を定義する型定義
 export type ItemsType = {

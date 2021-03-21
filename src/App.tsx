@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { AuthProvider } from 'auth/AuthProvider'
 import PrivateRoute from 'auth/PrivateRoute'
 import 'App.css'
-import Home from 'components/Home'
+import Home from 'pages/Home'
 import SignIn from 'auth/SignIn'
 
 const App = () => {
