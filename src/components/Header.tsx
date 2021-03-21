@@ -23,14 +23,14 @@ const SignOutButton = styled(Button)({
   },
 })
 
-type HeaderProps = {
+type HeaderType = {
   date: Date
   setPrevMonth: () => void
   setNextMonth: () => void
 }
 
 // Home.tsx からの props を受け取り、Header.tsx 側で使用する。
-export const Header = ({ date, setPrevMonth, setNextMonth }: HeaderProps) => {
+export const Header = ({ date, setPrevMonth, setNextMonth }: HeaderType) => {
   // Home.tsx 側から与えられた今日の日付（date）から、
   // Header.tsx で表示させるカレンダーの今日の日付を準備する。
   const today = date

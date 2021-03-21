@@ -1,6 +1,6 @@
 import { ItemsType } from 'pages/Home'
 
-type ExpenseItemProps = {
+type ExpenseItemType = {
   deleteExpense: (docId: string) => void
   expenseItem: ItemsType
   expenseText: string
@@ -18,7 +18,7 @@ export const ExpenseItem = ({
   incomeTotal,
   thisMonth,
   selectedMonth,
-}: ExpenseItemProps) => {
+}: ExpenseItemType) => {
   const deleteHandler = () => {
     deleteExpense(expenseItem.docId)
   }
