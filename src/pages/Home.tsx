@@ -403,15 +403,15 @@ const Home: React.FC = () => {
           <Grid container spacing={3}>
             {/* チャート画面 */}
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}></Paper>
+              <Paper className={fixedHeightPaper}>{/* <Chart/> */}</Paper>
             </Grid>
             {/* 残高画面 */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}></Paper>
+              <Paper className={fixedHeightPaper}>{/* <Balance/> */}</Paper>
             </Grid>
             {/* 購入品詳細画面 */}
             <Grid item xs={12}>
-              <Paper className={classes.paper}></Paper>
+              <Paper className={classes.paper}>{/* <Items/> */}</Paper>
             </Grid>
           </Grid>
           <Footer />
