@@ -21,11 +21,14 @@ import {
   Drawer,
   List,
   Divider,
+  Grid,
+  Paper,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { mainListItems, secondaryListItems } from 'components/LeftListItems'
+import Container from '@material-ui/core/Container'
 
 const drawerWidth: number = 240
 
@@ -87,7 +90,27 @@ const useStyles = makeStyles((theme: any) => ({
       width: theme.spacing(9),
     },
   },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddiingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  fixedHeight: {
+    height: 240,
+  },
 }))
+
 // 配列の型を定義する型定義
 export type ItemsType = {
   text: string
@@ -125,6 +148,9 @@ const Home: React.FC = () => {
     setOpen(false)
   }
 
+  // CSS デザインで多用するクラス名のため、インスタンスを作成
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
+
   // 収入・出費データを取得するタイミングは useEffect を使用する。
   // "date" が更新されるたび実行してほしいため、useEffect を使用する。
   useEffect(() => {
@@ -145,7 +171,6 @@ const Home: React.FC = () => {
     const day = date.getDate()
     setDate(new Date(year, month, day))
   }
-
   // 次月
   const setNextMonth = () => {
     const year = date.getFullYear()
@@ -372,6 +397,28 @@ const Home: React.FC = () => {
       </Drawer>
 
       {/* メインページをデザイン */}
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+            {/* チャート画面 */}
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}></Paper>
+            </Grid>
+            {/* 残高画面 */}
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}></Paper>
+            </Grid>
+            {/* 購入品詳細画面 */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}></Paper>
+            </Grid>
+          </Grid>
+          <Footer />
+        </Container>
+      </main>
+
+      {/* 以下、修正したい */}
       <div className="top">
         {/* props で date と setPrevMonth、setNextMonth を Header.tsx に渡す */}
         <Header
@@ -403,7 +450,6 @@ const Home: React.FC = () => {
         selectedMonth={selectedMonth}
         thisMonth={thisMonth}
       />
-      <Footer />
     </div>
   )
 }
