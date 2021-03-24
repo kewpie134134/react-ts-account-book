@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import {
   LineChart,
@@ -31,7 +30,7 @@ const Chart = () => {
   const theme: any = useTheme()
 
   return (
-    <React.Fragment>
+    <>
       <Title>Today</Title>
       <ResponsiveContainer>
         <LineChart
@@ -61,7 +60,7 @@ const Chart = () => {
           />
         </LineChart>
       </ResponsiveContainer>
-    </React.Fragment>
+    </>
   )
 }
 

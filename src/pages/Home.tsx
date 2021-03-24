@@ -410,7 +410,16 @@ const Home: React.FC = () => {
             </Grid>
             {/* 残高画面 */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>{/* <Balance/> */}</Paper>
+              <Paper className={fixedHeightPaper}>
+                <Balance
+                  incomeTotal={incomeTotal}
+                  expenseTotal={expenseTotal}
+                />
+                <TotalAmount
+                  incomeTotal={incomeTotal}
+                  expenseTotal={expenseTotal}
+                />
+              </Paper>
             </Grid>
             {/* 購入品詳細画面 */}
             <Grid item xs={12}>
@@ -429,8 +438,6 @@ const Home: React.FC = () => {
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
         />
-        <Balance incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
-        <TotalAmount incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
       </div>
       <AddItem
         addIncome={addIncome}
