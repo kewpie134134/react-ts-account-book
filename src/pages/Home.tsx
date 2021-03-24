@@ -30,6 +30,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { mainListItems, secondaryListItems } from 'components/LeftListItems'
 import Container from '@material-ui/core/Container'
 import Chart from 'components/Chart'
+import ItemsDetail from 'components/ItemsDetail'
 
 const drawerWidth: number = 240
 
@@ -423,7 +424,9 @@ const Home: React.FC = () => {
             </Grid>
             {/* 購入品詳細画面 */}
             <Grid item xs={12}>
-              <Paper className={classes.paper}>{/* <Items/> */}</Paper>
+              <Paper className={classes.paper}>
+                <ItemsDetail />
+              </Paper>
             </Grid>
           </Grid>
           <Footer />

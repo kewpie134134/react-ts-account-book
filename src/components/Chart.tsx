@@ -31,7 +31,7 @@ const Chart = () => {
 
   return (
     <>
-      <Title>Today</Title>
+      <Title>今月のグラフ</Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
@@ -49,7 +49,7 @@ const Chart = () => {
               position="left"
               style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
             >
-              Sales($)
+              出費(円)
             </Label>
           </YAxis>
           <Line
