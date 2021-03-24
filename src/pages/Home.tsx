@@ -29,6 +29,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { mainListItems, secondaryListItems } from 'components/LeftListItems'
 import Container from '@material-ui/core/Container'
+import Chart from 'components/Chart'
 
 const drawerWidth: number = 240
 
@@ -403,7 +404,9 @@ const Home: React.FC = () => {
           <Grid container spacing={3}>
             {/* チャート画面 */}
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>{/* <Chart/> */}</Paper>
+              <Paper className={fixedHeightPaper}>
+                <Chart />
+              </Paper>
             </Grid>
             {/* 残高画面 */}
             <Grid item xs={12} md={4} lg={3}>
