@@ -8,7 +8,7 @@ import { totalCalcIncome, totalCalcExpense } from 'components/TotalCaluculation'
 import { Header } from 'components/Header'
 import { Balance } from 'components/Balance'
 import { AddItem } from 'components/AddItems'
-import { ItemsList } from 'components/ItemsList'
+// import { ItemsList } from 'components/ItemsList'
 import { Footer } from 'components/Footer'
 import {
   AppBar,
@@ -440,7 +440,7 @@ const Home: React.FC = () => {
               selectedMonth={selectedMonth}
               thisMonth={thisMonth}
             />
-            <ItemsList
+            {/* <ItemsList
               deleteIncome={deleteIncome}
               deleteExpense={deleteExpense}
               incomeTotal={incomeTotal}
@@ -448,11 +448,19 @@ const Home: React.FC = () => {
               expenseItems={expenseItems}
               selectedMonth={selectedMonth}
               thisMonth={thisMonth}
-            />
+            /> */}
             {/* 購入品詳細画面 */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <ItemsDetail />
+                <ItemsDetail
+                  deleteIncome={deleteIncome}
+                  deleteExpense={deleteExpense}
+                  incomeTotal={incomeTotal}
+                  incomeItems={incomeItems}
+                  expenseItems={expenseItems}
+                  selectedMonth={selectedMonth}
+                  thisMonth={thisMonth}
+                />
               </Paper>
             </Grid>
           </Grid>

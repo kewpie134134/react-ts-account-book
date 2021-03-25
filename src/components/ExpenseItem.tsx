@@ -1,3 +1,4 @@
+import { TableCell, TableRow } from '@material-ui/core'
 import { ItemsType } from 'pages/Home'
 
 type ExpenseItemType = {
@@ -33,12 +34,17 @@ export const ExpenseItem = ({
 
   const showThisMonth = () => {
     return (
-      <li>
-        <div>{expenseText}</div>
-        <div>-{Number(expenseAmount).toLocaleString()}円</div>
-        <span>{percentage()}</span>
-        <button onClick={deleteHandler}>×</button>
-      </li>
+      // TODO: ★ <Table key={---.id}> <- この id を設定するかが課題
+      <TableRow>
+        <TableCell>{expenseText}</TableCell>
+        <TableCell align="right">
+          <div>-{Number(expenseAmount).toLocaleString()}円</div>
+        </TableCell>
+        <TableCell align="right">
+          <button onClick={deleteHandler}>×</button>
+        </TableCell>
+        <TableCell align="right">{percentage()}</TableCell>
+      </TableRow>
     )
   }
 
