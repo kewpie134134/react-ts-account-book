@@ -400,7 +400,13 @@ const Home: React.FC = () => {
 
       {/* メインページをデザイン */}
       <main className={classes.content}>
+        {/* props で date と setPrevMonth、setNextMonth を Header.tsx に渡す */}
         <div className={classes.appBarSpacer} />
+        <Header
+          date={date}
+          setPrevMonth={setPrevMonth}
+          setNextMonth={setNextMonth}
+        />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* チャート画面 */}
@@ -422,6 +428,27 @@ const Home: React.FC = () => {
                 />
               </Paper>
             </Grid>
+            <AddItem
+              addIncome={addIncome}
+              addExpense={addExpense}
+              inputText={inputText}
+              setInputText={setInputText}
+              inputAmount={inputAmount}
+              setInputAmount={setInputAmount}
+              type={type}
+              setType={setType}
+              selectedMonth={selectedMonth}
+              thisMonth={thisMonth}
+            />
+            <ItemsList
+              deleteIncome={deleteIncome}
+              deleteExpense={deleteExpense}
+              incomeTotal={incomeTotal}
+              incomeItems={incomeItems}
+              expenseItems={expenseItems}
+              selectedMonth={selectedMonth}
+              thisMonth={thisMonth}
+            />
             {/* 購入品詳細画面 */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
@@ -432,37 +459,6 @@ const Home: React.FC = () => {
           <Footer />
         </Container>
       </main>
-
-      {/* 以下、修正したい */}
-      <div className="top">
-        {/* props で date と setPrevMonth、setNextMonth を Header.tsx に渡す */}
-        <Header
-          date={date}
-          setPrevMonth={setPrevMonth}
-          setNextMonth={setNextMonth}
-        />
-      </div>
-      <AddItem
-        addIncome={addIncome}
-        addExpense={addExpense}
-        inputText={inputText}
-        setInputText={setInputText}
-        inputAmount={inputAmount}
-        setInputAmount={setInputAmount}
-        type={type}
-        setType={setType}
-        selectedMonth={selectedMonth}
-        thisMonth={thisMonth}
-      />
-      <ItemsList
-        deleteIncome={deleteIncome}
-        deleteExpense={deleteExpense}
-        incomeTotal={incomeTotal}
-        incomeItems={incomeItems}
-        expenseItems={expenseItems}
-        selectedMonth={selectedMonth}
-        thisMonth={thisMonth}
-      />
     </div>
   )
 }
