@@ -410,13 +410,14 @@ const Home: React.FC = () => {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* チャート画面 */}
-            <Grid item xs={12} md={8} lg={9}>
+            {/* <Grid item xs={12} md={8} lg={9}> */}
+            <Grid item xs={12}>
               <Paper className={fixedHeightPaper}>
                 <Chart />
               </Paper>
             </Grid>
             {/* 残高画面 */}
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12}>
               <Paper className={fixedHeightPaper}>
                 <Balance
                   incomeTotal={incomeTotal}
