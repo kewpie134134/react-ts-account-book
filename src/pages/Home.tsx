@@ -444,7 +444,7 @@ const Home: React.FC = () => {
             </Grid>
             <Grid item xs={12}>
               <div>
-                <button onClick={openDialog}>設定</button>
+                <button onClick={openDialog}>モーダルテスト</button>
                 <ItemDetail isOpen={isDialogOpen} onClose={closeDialog} />
               </div>
             </Grid>
