@@ -29,7 +29,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { mainListItems, secondaryListItems } from 'components/LeftListItems'
 import Container from '@material-ui/core/Container'
 // import Chart from 'components/Chart'
-import ItemsDetail from 'components/ItemList'
+import ItemsDetail from 'components/ItemsList'
 
 const drawerWidth: number = 240
 
