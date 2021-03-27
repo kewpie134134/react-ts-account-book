@@ -30,6 +30,7 @@ import { mainListItems, secondaryListItems } from 'components/LeftListItems'
 import Container from '@material-ui/core/Container'
 // import Chart from 'components/Chart'
 import ItemsList from 'components/ItemsList'
+import { ItemDetail } from 'components/ItemDetail'
 
 const drawerWidth: number = 240
 
@@ -132,6 +133,9 @@ const Home: React.FC = () => {
 
   // Material-UI で使用する UI パーツのための設定
   const [open, setOpen] = useState<boolean>(false)
+
+  // React-Modal でモーダルを使用するための useState()。
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
   // Material-UI を使用するための宣言
   const classes = useStyles()
@@ -339,6 +343,16 @@ const Home: React.FC = () => {
   // % 合計と合計金を表示する
   const expenseTotal = totalCalcExpense(expenseItems)
 
+  // ダイアログを開く
+  const openDialog = () => {
+    setIsDialogOpen(true)
+  }
+
+  // ダイアログからのコールバックでダイアログを閉じる
+  const closeDialog = () => {
+    setIsDialogOpen(false)
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -427,6 +441,12 @@ const Home: React.FC = () => {
                   expenseTotal={expenseTotal}
                 />
               </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <div>
+                <button onClick={openDialog}>設定</button>
+                <ItemDetail isOpen={isDialogOpen} onClose={closeDialog} />
+              </div>
             </Grid>
             <AddItem
               addIncome={addIncome}
