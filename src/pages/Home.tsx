@@ -8,7 +8,6 @@ import { totalCalcIncome, totalCalcExpense } from 'components/TotalCaluculation'
 import { Header } from 'components/Header'
 import { Balance } from 'components/Balance'
 import { AddItem } from 'components/AddItems'
-// import { ItemsList } from 'components/ItemsList'
 import { Footer } from 'components/Footer'
 import {
   AppBar,
@@ -30,7 +29,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { mainListItems, secondaryListItems } from 'components/LeftListItems'
 import Container from '@material-ui/core/Container'
 // import Chart from 'components/Chart'
-import ItemsDetail from 'components/ItemsDetail'
+import ItemsDetail from 'components/ItemList'
 
 const drawerWidth: number = 240
 
