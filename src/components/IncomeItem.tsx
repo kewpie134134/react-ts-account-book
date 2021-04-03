@@ -1,3 +1,4 @@
+import { TableRow, TableCell } from '@material-ui/core'
 import { ItemsType } from 'pages/Home'
 
 type IncomeItemType = {
@@ -28,14 +29,19 @@ export const IncomeItem = ({
   // 今月のリストを表示させ、削除ボタンを表示させるコンポーネント
   const showThisMonth = () => {
     return (
-      <li>
-        <div>{incomeText}</div>
-        {/* Number(incomeAmount).toLocaleString はカンマ「,」を表示させるために使用する */}
-        <div>+{Number(incomeAmount).toLocaleString()}円</div>
-        {/* deleteHandler は "×"を押したときに deleteIncome を実行する */}
-        {/* deleteIncome は Firestore の docId の関係上、Home.tsx で定義したものを使用する */}
-        <button onClick={deleteHandler}>×</button>
-      </li>
+      // TODO: ★ <Table key={---.id}> <- この id を設定するかが課題
+      <TableRow>
+        <TableCell>{incomeText}</TableCell>
+        <TableCell align="right">
+          {/* Number(incomeAmount).toLocaleString はカンマ「,」を表示させるために使用する */}
+          <div>+{Number(incomeAmount).toLocaleString()}円</div>
+        </TableCell>
+        <TableCell align="right">
+          {/* deleteHandler は "×"を押したときに deleteIncome を実行する */}
+          {/* deleteIncome は Firestore の docId の関係上、Home.tsx で定義したものを使用する */}
+          <button onClick={deleteHandler}>×</button>
+        </TableCell>
+      </TableRow>
     )
   }
 

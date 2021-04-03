@@ -41,10 +41,10 @@ export const Header = ({ date, setPrevMonth, setNextMonth }: HeaderType) => {
     <div className="head">
       <SignOutButton onClick={() => auth.signOut()}>Sign Out</SignOutButton>
       <div>
-        <button onClick={() => setPrevMonth()}>←前月 </button>
         <h1>
           {year}年{month}月
         </h1>
+        <button onClick={() => setPrevMonth()}>←前月 </button>
         <button onClick={() => setNextMonth()}> 次月→</button>
       </div>
     </div>

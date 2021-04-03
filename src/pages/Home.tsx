@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase/Firebase'
 import firebase from 'firebase/app'
@@ -7,7 +8,110 @@ import { totalCalcIncome, totalCalcExpense } from 'components/TotalCaluculation'
 import { Header } from 'components/Header'
 import { Balance } from 'components/Balance'
 import { AddItem } from 'components/AddItems'
-import { ItemsList } from 'components/ItemsList'
+import { Footer } from 'components/Footer'
+import {
+  AppBar,
+  Badge,
+  CssBaseline,
+  IconButton,
+  makeStyles,
+  Toolbar,
+  Typography,
+  Drawer,
+  List,
+  Divider,
+  Grid,
+  Paper,
+} from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import { mainListItems, secondaryListItems } from 'components/LeftListItems'
+import Container from '@material-ui/core/Container'
+// import Chart from 'components/Chart'
+import ItemsList from 'components/ItemsList'
+import { ItemDetail } from 'components/ItemDetail'
+
+const drawerWidth: number = 240
+
+const useStyles = makeStyles((theme: any) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9),
+    },
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddiingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  fixedHeight: {
+    height: 240,
+  },
+}))
 
 // 配列の型を定義する型定義
 export type ItemsType = {
@@ -27,10 +131,30 @@ const Home: React.FC = () => {
   const [type, setType] = useState('income')
   const [date, setDate] = useState(new Date())
 
+  // Material-UI で使用する UI パーツのための設定
+  const [open, setOpen] = useState<boolean>(false)
+
+  // React-Modal でモーダルを使用するための useState()。
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+
+  // Material-UI を使用するための宣言
+  const classes = useStyles()
+
   // AuthContext でログイン（サインイン）したユーザー情報を
   // useContext で取得する。
   // TODO: ★ 型定義 を精査したい（難解のため、将来検討）
   const { currentUser }: any = useContext(AuthContext)
+
+  // Material-UI で、左メニューの開閉をハンドリングする関数
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
+  const handleDrawerClose = () => {
+    setOpen(false)
+  }
+
+  // CSS デザインで多用するクラス名のため、インスタンスを作成
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
   // 収入・出費データを取得するタイミングは useEffect を使用する。
   // "date" が更新されるたび実行してほしいため、useEffect を使用する。
@@ -52,7 +176,6 @@ const Home: React.FC = () => {
     const day = date.getDate()
     setDate(new Date(year, month, day))
   }
-
   // 次月
   const setNextMonth = () => {
     const year = date.getFullYear()
@@ -220,40 +343,141 @@ const Home: React.FC = () => {
   // % 合計と合計金を表示する
   const expenseTotal = totalCalcExpense(expenseItems)
 
+  // ダイアログを開く
+  const openDialog = () => {
+    setIsDialogOpen(true)
+  }
+
+  // ダイアログからのコールバックでダイアログを閉じる
+  const closeDialog = () => {
+    setIsDialogOpen(false)
+  }
+
   return (
-    <div className="home">
-      <h1>Home</h1>
-      <div className="top">
+    <div className={classes.root}>
+      <CssBaseline />
+
+      {/* Home 画面の上部をデザイン */}
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(
+              classes.menuButton,
+              open && classes.menuButtonHidden,
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            Home
+          </Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={0} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      {/* 左メニューページをデザイン */}
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <List>{mainListItems}</List>
+        <Divider />
+        <List>{secondaryListItems}</List>
+      </Drawer>
+
+      {/* メインページをデザイン */}
+      <main className={classes.content}>
         {/* props で date と setPrevMonth、setNextMonth を Header.tsx に渡す */}
+        <div className={classes.appBarSpacer} />
         <Header
           date={date}
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
         />
-        <Balance incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
-        <TotalAmount incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
-      </div>
-      <AddItem
-        addIncome={addIncome}
-        addExpense={addExpense}
-        inputText={inputText}
-        setInputText={setInputText}
-        inputAmount={inputAmount}
-        setInputAmount={setInputAmount}
-        type={type}
-        setType={setType}
-        selectedMonth={selectedMonth}
-        thisMonth={thisMonth}
-      />
-      <ItemsList
-        deleteIncome={deleteIncome}
-        deleteExpense={deleteExpense}
-        incomeTotal={incomeTotal}
-        incomeItems={incomeItems}
-        expenseItems={expenseItems}
-        selectedMonth={selectedMonth}
-        thisMonth={thisMonth}
-      />
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+            {/* チャート画面 */}
+            {/* <Grid item xs={12} md={8} lg={9}> */}
+            {/* <Grid item xs={12}>
+              <Paper className={fixedHeightPaper}>
+                <Chart />
+              </Paper>
+            </Grid> */}
+            {/* 残高画面 */}
+            <Grid item xs={12}>
+              <Paper className={fixedHeightPaper}>
+                <Balance
+                  incomeTotal={incomeTotal}
+                  expenseTotal={expenseTotal}
+                />
+                <TotalAmount
+                  incomeTotal={incomeTotal}
+                  expenseTotal={expenseTotal}
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <div>
+                <button onClick={openDialog}>モーダルテスト</button>
+                <ItemDetail isOpen={isDialogOpen} onClose={closeDialog} />
+              </div>
+            </Grid>
+            <AddItem
+              addIncome={addIncome}
+              addExpense={addExpense}
+              inputText={inputText}
+              setInputText={setInputText}
+              inputAmount={inputAmount}
+              setInputAmount={setInputAmount}
+              type={type}
+              setType={setType}
+              selectedMonth={selectedMonth}
+              thisMonth={thisMonth}
+            />
+            {/* 購入品詳細画面 */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <ItemsList
+                  deleteIncome={deleteIncome}
+                  deleteExpense={deleteExpense}
+                  incomeTotal={incomeTotal}
+                  incomeItems={incomeItems}
+                  expenseItems={expenseItems}
+                  selectedMonth={selectedMonth}
+                  thisMonth={thisMonth}
+                />
+              </Paper>
+            </Grid>
+          </Grid>
+          <Footer />
+        </Container>
+      </main>
     </div>
   )
 }
