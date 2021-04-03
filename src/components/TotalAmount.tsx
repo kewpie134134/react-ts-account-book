@@ -1,3 +1,4 @@
+import Title from 'components/Title'
 /**
  * 収入と支出の各合計を計算する。
  * 値の計算はそれぞれの incomeItems と expenseItems の配列から、
@@ -21,7 +22,7 @@ export const TotalAmount = ({ incomeTotal, expenseTotal }: TotalAmountType) => {
   return (
     <div>
       <div>
-        <h2>収入</h2>
+        <Title>収入</Title>
         <div>
           <p>
             + {Number(incomeTotal).toLocaleString()}
@@ -30,7 +31,7 @@ export const TotalAmount = ({ incomeTotal, expenseTotal }: TotalAmountType) => {
         </div>
       </div>
       <div>
-        <h2>支出</h2>
+        <Title>支出</Title>
         <div>
           <p>
             - {Number(expenseTotal).toLocaleString()}
