@@ -73,7 +73,9 @@ export const ConfirmDeleteItem = ({
         <form onSubmit={handleSubmit}>
           削除しますか？
           <div>{expenseItem.text}</div>
-          <button onClick={deleteHandler}>はい</button>
+          <button type="submit" onClick={deleteHandler}>
+            はい
+          </button>
           <button>いいえ</button>
         </form>
       </ReactModal>
