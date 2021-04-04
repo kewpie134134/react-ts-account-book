@@ -75,7 +75,7 @@ export const ExpenseItem = ({
         {/* パーセンテージ表示は不要のため、コメントアウト */}
         {/* <TableCell align="right">{percentage()}</TableCell> */}
         {/* 編集用ダイアログを表示する。 */}
-        <TableCell>
+        <TableCell align="right">
           <button onClick={openEditDialog}>✎</button>
           <EditItem
             isOpen={isEditDialogOpen}
