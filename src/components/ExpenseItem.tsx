@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { TableCell, TableRow } from '@material-ui/core'
 import { ItemsType } from 'pages/Home'
+import { ConfirmDeleteItem } from 'components/ConfirmDeleteItem'
 
 type ExpenseItemType = {
   deleteExpense: (docId: string) => void
@@ -20,8 +22,17 @@ export const ExpenseItem = ({
   thisMonth,
   selectedMonth,
 }: ExpenseItemType) => {
-  const deleteHandler = () => {
-    deleteExpense(expenseItem.docId)
+  // React-Modal でモーダルを使用するための useState()。
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+
+  // ダイアログを開く
+  const openDialog = () => {
+    setIsDialogOpen(true)
+  }
+
+  // ダイアログからのコールバックでダイアログを閉じる
+  const closeDialog = () => {
+    setIsDialogOpen(false)
   }
 
   const percentage = () => {
@@ -41,7 +52,15 @@ export const ExpenseItem = ({
           <div>-{Number(expenseAmount).toLocaleString()}円</div>
         </TableCell>
         <TableCell align="right">
-          <button onClick={deleteHandler}>×</button>
+          <div>
+            <button onClick={openDialog}>X</button>
+            <ConfirmDeleteItem
+              isOpen={isDialogOpen}
+              onClose={closeDialog}
+              expenseItem={expenseItem}
+              deleteExpense={deleteExpense}
+            />
+          </div>
         </TableCell>
         <TableCell align="right">{percentage()}</TableCell>
       </TableRow>
