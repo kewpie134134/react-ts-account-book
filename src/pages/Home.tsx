@@ -154,7 +154,8 @@ const Home: React.FC = () => {
   }
 
   // CSS デザインで多用するクラス名のため、インスタンスを作成
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
+  // 残高画面で使用していたが、一時的にコメントアウトとする。
+  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
   // 収入・出費データを取得するタイミングは useEffect を使用する。
   // "date" が更新されるたび実行してほしいため、useEffect を使用する。
@@ -431,7 +432,8 @@ const Home: React.FC = () => {
             </Grid> */}
             {/* 残高画面 */}
             <Grid item xs={12}>
-              <Paper className={fixedHeightPaper}>
+              {/* <Paper className={fixedHeightPaper}> */}
+              <Paper className={classes.paper}>
                 <Balance
                   incomeTotal={incomeTotal}
                   expenseTotal={expenseTotal}
