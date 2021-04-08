@@ -26,18 +26,16 @@ const useStyles = makeStyles((theme) => ({
 
 type ItemsDetailType = {
   deleteExpense: (docId: string) => void
-  editExpense: (text: string, amount: number, docId: string) => void
   expenseItems: Array<ItemsType>
-  selectedMonth: number
-  thisMonth: number
+  setExpenseItems: any
+  categories: Array<string>
 }
 
 const ItemsDetail = ({
   deleteExpense,
-  editExpense,
   expenseItems,
-  selectedMonth,
-  thisMonth,
+  setExpenseItems,
+  categories,
 }: ItemsDetailType) => {
   const classes = useStyles()
   return (
@@ -60,13 +58,13 @@ const ItemsDetail = ({
           {expenseItems.map((expenseItem: ItemsType) => (
             <ExpenseItem
               deleteExpense={deleteExpense}
-              editExpense={editExpense}
+              setExpenseItems={setExpenseItems}
               expenseText={expenseItem.text}
               expenseAmount={expenseItem.amount}
               expenseItem={expenseItem}
+              expenseItems={expenseItems}
               key={expenseItem.docId}
-              selectedMonth={selectedMonth}
-              thisMonth={thisMonth}
+              categories={categories}
             />
           ))}
         </TableBody>

@@ -56,7 +56,7 @@ const Home: React.FC = () => {
     '税金',
   ])
 
-  console.log(setCategories)
+  console.log(typeof setCategories)
 
   // Material-UI を使用するための宣言
   const classes = useStyles()
@@ -102,13 +102,6 @@ const Home: React.FC = () => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0)
   }
 
-  // 指定した月と今月の情報を親コンポーネント（Home.tsx）から渡すため、
-  // props で渡すように準備する（リストでも使用する）。
-  // なお、値は UI に表示指せるために、値に +1 している。
-  const selectedMonth = date.getMonth() + 1
-  const today = new Date()
-  const thisMonth = today.getMonth() + 1
-
   // Firestore からデータをとってきてアプリ上で表示させる。
   // 取得したいデータの Expense 用の関数 getExpenseData を作成する。
   // Firebase からデータを取得し、アプリ上で表示させる
@@ -142,17 +135,6 @@ const Home: React.FC = () => {
         // react 側の expenseItems の配列を更新する
         setExpenseItems(expenseItems)
       })
-  }
-
-  // FireStore 上の支出データを編集する
-  const editExpense = (text: string, amount: number, docId: string) => {
-    const date = firebase.firestore.Timestamp.now()
-    db.collection('expenseItems').doc(docId).update({
-      uid: currentUser.uid,
-      text,
-      amount,
-      date,
-    })
   }
 
   // FireStore 上の expenseItems コレクションにある docId に該当するアイテムを削除する。
@@ -247,10 +229,9 @@ const Home: React.FC = () => {
               <Paper className={classes.paper}>
                 <ItemsList
                   deleteExpense={deleteExpense}
-                  editExpense={editExpense}
                   expenseItems={expenseItems}
-                  selectedMonth={selectedMonth}
-                  thisMonth={thisMonth}
+                  setExpenseItems={setExpenseItems}
+                  categories={categories}
                 />
               </Paper>
             </Grid>

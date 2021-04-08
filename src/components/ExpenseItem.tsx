@@ -2,24 +2,26 @@ import { useState } from 'react'
 import { TableCell, TableRow } from '@material-ui/core'
 import { ItemsType } from 'pages/Home'
 import { ConfirmDeleteItem } from 'components/ConfirmDeleteItem'
-import { EditItem } from 'components/EditItem'
+import { ItemDetail } from './ItemDetail'
 
 type ExpenseItemType = {
   deleteExpense: (docId: string) => void
-  editExpense: (text: string, amount: number, docId: string) => void
   expenseItem: ItemsType
+  expenseItems: Array<ItemsType>
   expenseText: string
   expenseAmount: number
-  thisMonth: number
-  selectedMonth: number
+  setExpenseItems: any
+  categories: Array<string>
 }
 
 export const ExpenseItem = ({
   deleteExpense,
-  editExpense,
   expenseItem,
+  expenseItems,
   expenseText,
   expenseAmount,
+  setExpenseItems,
+  categories,
 }: ExpenseItemType) => {
   // React-Modal でモーダルを使用するための useState()。
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false)
@@ -73,11 +75,14 @@ export const ExpenseItem = ({
       {/* 編集用ダイアログを表示する。 */}
       <TableCell align="right">
         <button onClick={openEditDialog}>✎</button>
-        <EditItem
+        <ItemDetail
           isOpen={isEditDialogOpen}
           onClose={closeEditDialog}
           expenseItem={expenseItem}
-          editExpense={editExpense}
+          expenseItems={expenseItems}
+          setExpenseItems={setExpenseItems}
+          categories={categories}
+          key={expenseItem.docId}
         />
       </TableCell>
     </TableRow>

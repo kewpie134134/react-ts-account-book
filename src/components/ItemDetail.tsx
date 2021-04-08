@@ -5,6 +5,7 @@ import ReactModal from 'react-modal'
 import { AuthContext } from 'auth/AuthProvider'
 import { styled } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import { ItemsType } from 'pages/Home'
 
 type ItemDetailType = {
   isOpen: boolean
@@ -12,6 +13,7 @@ type ItemDetailType = {
   expenseItems: any
   setExpenseItems: any
   categories: Array<string>
+  expenseItem?: ItemsType
 }
 
 export const ItemDetail = ({
@@ -20,9 +22,14 @@ export const ItemDetail = ({
   expenseItems,
   setExpenseItems,
   categories,
+  expenseItem,
 }: ItemDetailType) => {
-  const [inputText, setInputText] = useState<string>('')
-  const [inputAmount, setInputAmount] = useState<number>(0)
+  const [inputText, setInputText] = useState<string>(
+    expenseItem ? expenseItem.text : '',
+  )
+  const [inputAmount, setInputAmount] = useState<number>(
+    expenseItem ? expenseItem.amount : 0,
+  )
   const [category, setCategory] = useState('')
 
   // 現在のユーザー情報を取得する。
@@ -73,6 +80,17 @@ export const ItemDetail = ({
       })
   }
 
+  // FireStore 上の支出データを編集する
+  const editExpense = (text: string, amount: number, docId: string) => {
+    const date = firebase.firestore.Timestamp.now()
+    db.collection('expenseItems').doc(docId).update({
+      uid: currentUser.uid,
+      text,
+      amount,
+      date,
+    })
+  }
+
   // submit ボタンを押したときにダイアログとを閉じる
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -98,7 +116,8 @@ export const ItemDetail = ({
   const submitItemHandler = () => {
     // デフォルトのイベント（動作）を一時的にここで止め、以降の処理を行う。
     // -> 正常に行われれば、Firetore のデータが追加され、react アプリのステートも更新される。
-    // event.preventDefault()
+
+    // エラー判定
     if (
       inputText === '' ||
       inputAmount === 0 ||
@@ -107,9 +126,15 @@ export const ItemDetail = ({
       // 正しい内容が入力されていない場合、エラーを表示する
       alert('正しい内容を入力してください')
     } else {
-      addExpense(inputText, inputAmount)
-      // 値を渡したら、入力フォーム内容はリセットする
-      reset()
+      if (expenseItem) {
+        // 編集モードの時は、内容を更新する
+        editExpense(inputText, inputAmount, expenseItem.docId)
+      } else {
+        // 新規追加モードの時は、新しくデータを登録する
+        addExpense(inputText, inputAmount)
+        // 値を渡したら、入力フォーム内容はリセットする
+        reset()
+      }
     }
   }
 
@@ -170,7 +195,11 @@ export const ItemDetail = ({
         contentLabel="Settings"
       >
         <form onSubmit={handleSubmit}>
-          <label>商品名と金額を入力してください。</label>
+          <label>
+            {!expenseItem
+              ? '以下の内容を修正してください。'
+              : '商品名と金額を入力してください。'}
+          </label>
           {/* text の値と amount の値は onChange で取得する */}
           <div>
             <label>内容</label>
@@ -188,8 +217,10 @@ export const ItemDetail = ({
           <div>
             <label>カテゴリ</label>
             <select value={category} onChange={categoryHandler}>
-              {categories.map((category) => (
-                <option value={category}>{category}</option>
+              {categories.map((category, index) => (
+                <option value={category} key={index}>
+                  {category}
+                </option>
               ))}
             </select>
           </div>
