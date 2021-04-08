@@ -120,6 +120,7 @@ export type ItemsType = {
   docId: string
   date: firebase.firestore.Timestamp
   uid: string
+  tag: Array<string>
 }
 
 const Home: React.FC = () => {
@@ -229,6 +230,7 @@ const Home: React.FC = () => {
             uid: docData.uid,
             date: docData.date,
             docId: doc.id,
+            tag: docData.tag,
           })
         })
         // react 側の incomeItems の配列を更新する
@@ -249,6 +251,7 @@ const Home: React.FC = () => {
     // 収入リストが順番に並べられるようにタイムスタンプを作成
     // -> 入力時間が登録される firebase の関数。
     const date = firebase.firestore.Timestamp.now()
+    const tag = ['タグ1', 'タグ2']
     // どこの collection の document に追加するかは、firebase の関数で定義。
     db.collection('incomeItems')
       .doc(docId)
@@ -258,6 +261,7 @@ const Home: React.FC = () => {
         text,
         amount,
         date,
+        tag,
       })
       // セットした値を react 側の incomeItems に更新する
       .then(() => {
@@ -269,6 +273,7 @@ const Home: React.FC = () => {
             docId: docId,
             date: date,
             uid: currentUser.uid,
+            tag: tag,
           },
         ])
       })
@@ -302,6 +307,7 @@ const Home: React.FC = () => {
             uid: docData.uid,
             date: docData.date,
             docId: doc.id,
+            tag: docData.tag,
           })
         })
         setExpenseItems(expenseItems)
@@ -313,6 +319,7 @@ const Home: React.FC = () => {
   const addExpense = (text: string, amount: number) => {
     const docId = Math.random().toString(32).substring(2)
     const date = firebase.firestore.Timestamp.now()
+    const tag = ['TAG1', 'TAG2']
     db.collection('expenseItems')
       .doc(docId)
       .set({
@@ -320,6 +327,7 @@ const Home: React.FC = () => {
         text,
         amount,
         date,
+        tag,
       })
       .then(() => {
         setExpenseItems([
@@ -330,6 +338,7 @@ const Home: React.FC = () => {
             docId: docId,
             date: date,
             uid: currentUser.uid,
+            tag: tag,
           },
         ])
       })

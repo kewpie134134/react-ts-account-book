@@ -86,6 +86,7 @@ const ItemsDetail = ({
           <TableRow>
             <TableCell>内容</TableCell>
             <TableCell align="right">金額</TableCell>
+            <TableCell align="right">タグ</TableCell>
             <TableCell align="right">削除</TableCell>
             <TableCell align="right">編集</TableCell>
             {/* <TableCell align="right">割合</TableCell> */}

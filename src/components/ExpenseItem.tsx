@@ -55,6 +55,14 @@ export const ExpenseItem = ({
     }
   }
 
+  const arrayToString = (expenseItemTags: Array<string>) => {
+    if (expenseItemTags) {
+      return expenseItemTags.join(',')
+    } else {
+      return '-'
+    }
+  }
+
   const showThisMonth = () => {
     return (
       // TODO: ★ <Table key={---.id}> <- この id を設定するかが課題
@@ -63,6 +71,7 @@ export const ExpenseItem = ({
         <TableCell align="right">
           <div>-{Number(expenseAmount).toLocaleString()}円</div>
         </TableCell>
+        <TableCell align="right">{arrayToString(expenseItem.tag)}</TableCell>
         <TableCell align="right">
           <button onClick={openDeleteDialog}>X</button>
           <ConfirmDeleteItem
