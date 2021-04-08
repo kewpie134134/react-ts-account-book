@@ -11,6 +11,7 @@ type ItemDetailType = {
   onClose?: () => void
   expenseItems: any
   setExpenseItems: any
+  categories: Array<string>
 }
 
 export const ItemDetail = ({
@@ -18,9 +19,13 @@ export const ItemDetail = ({
   onClose,
   expenseItems,
   setExpenseItems,
+  categories,
 }: ItemDetailType) => {
   const [inputText, setInputText] = useState<string>('')
   const [inputAmount, setInputAmount] = useState<number>(0)
+  const [category, setCategory] = useState('')
+
+  // 現在のユーザー情報を取得する。
   const { currentUser }: any = useContext(AuthContext)
 
   // ReactModal を使用するための宣言
@@ -133,6 +138,11 @@ export const ItemDetail = ({
     setInputAmount(0)
   }
 
+  // カテゴリ用セレクトボックスが選択された時のハンドラー
+  const categoryHandler = (event: { target: HTMLSelectElement }) => {
+    setCategory(event.target.value)
+  }
+
   // スタイルのカスタマイズを記述
   const customStyles: ReactModal.Styles = {
     // ダイアログ内のスタイル（中央に表示）
@@ -174,6 +184,14 @@ export const ItemDetail = ({
               onChange={inputAmountHandler}
             />
             <span>円</span>
+          </div>
+          <div>
+            <label>カテゴリ</label>
+            <select value={category} onChange={categoryHandler}>
+              {categories.map((category) => (
+                <option value={category}>{category}</option>
+              ))}
+            </select>
           </div>
           <div>
             <AddButton type="submit" onClick={submitItemHandler}>

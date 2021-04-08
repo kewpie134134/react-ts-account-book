@@ -42,6 +42,22 @@ const Home: React.FC = () => {
   // React-Modal でモーダルを使用するための useState()。
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
+  // カテゴリ用の配列
+  const [categories, setCategories] = useState<string[]>([
+    '食費',
+    '趣味',
+    '交通費',
+    '買い物',
+    '交際費',
+    '生活費',
+    '住宅',
+    '通信',
+    '車',
+    '税金',
+  ])
+
+  console.log(setCategories)
+
   // Material-UI を使用するための宣言
   const classes = useStyles()
 
@@ -222,6 +238,7 @@ const Home: React.FC = () => {
                   onClose={closeDialog}
                   expenseItems={expenseItems}
                   setExpenseItems={setExpenseItems}
+                  categories={categories}
                 />
               </div>
             </Grid>
