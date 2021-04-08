@@ -154,7 +154,8 @@ const Home: React.FC = () => {
   }
 
   // CSS デザインで多用するクラス名のため、インスタンスを作成
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
+  // 残高画面で使用していたが、一時的にコメントアウトとする。
+  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
   // 収入・出費データを取得するタイミングは useEffect を使用する。
   // "date" が更新されるたび実行してほしいため、useEffect を使用する。
@@ -162,7 +163,6 @@ const Home: React.FC = () => {
     getIncomeData()
     getExpenseData()
     // date の値を確認してデータを取得するため、date は必要。
-    // TODO：ここで date が本当に必要か確認    // date の値を確認してデータを取得するため、date は必要。
     // TODO：ここで date が本当に必要か確認
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date])
@@ -335,6 +335,17 @@ const Home: React.FC = () => {
       })
   }
 
+  // FireStore 上の支出データを編集する
+  const editExpense = (text: string, amount: number, docId: string) => {
+    const date = firebase.firestore.Timestamp.now()
+    db.collection('expenseItems').doc(docId).update({
+      uid: currentUser.uid,
+      text,
+      amount,
+      date,
+    })
+  }
+
   // FireStore 上の expenseItems コレクションにある docId に該当するアイテムを削除する。
   const deleteExpense = (docId: string) => {
     db.collection('expenseItems').doc(docId).delete()
@@ -431,7 +442,8 @@ const Home: React.FC = () => {
             </Grid> */}
             {/* 残高画面 */}
             <Grid item xs={12}>
-              <Paper className={fixedHeightPaper}>
+              {/* <Paper className={fixedHeightPaper}> */}
+              <Paper className={classes.paper}>
                 <Balance
                   incomeTotal={incomeTotal}
                   expenseTotal={expenseTotal}
@@ -466,6 +478,7 @@ const Home: React.FC = () => {
                 <ItemsList
                   deleteIncome={deleteIncome}
                   deleteExpense={deleteExpense}
+                  editExpense={editExpense}
                   incomeTotal={incomeTotal}
                   incomeItems={incomeItems}
                   expenseItems={expenseItems}
