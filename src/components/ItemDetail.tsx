@@ -10,8 +10,6 @@ import { ItemsType } from 'pages/Home'
 type ItemDetailType = {
   isOpen: boolean
   onClose?: () => void
-  expenseItems: any
-  setExpenseItems: any
   categories: Array<string>
   expenseItem?: ItemsType
 }
@@ -19,8 +17,6 @@ type ItemDetailType = {
 export const ItemDetail = ({
   isOpen,
   onClose,
-  expenseItems,
-  setExpenseItems,
   categories,
   expenseItem,
 }: ItemDetailType) => {
@@ -54,30 +50,14 @@ export const ItemDetail = ({
     const date = firebase.firestore.Timestamp.now()
     const tag = ['TAG1', 'TAG2']
     // どこの collection の document に追加するかは、firebase の関数で定義。
-    db.collection('expenseItems')
-      .doc(docId)
-      .set({
-        // セットしたいデータを配列として追加する
-        uid: currentUser.uid,
-        text,
-        amount,
-        date,
-        tag,
-      })
-      // セットした値を react 側の expenseItems に更新する
-      .then(() => {
-        setExpenseItems([
-          ...expenseItems,
-          {
-            text: inputText,
-            amount: inputAmount,
-            docId: docId,
-            date: date,
-            uid: currentUser.uid,
-            tag: tag,
-          },
-        ])
-      })
+    db.collection('expenseItems').doc(docId).set({
+      // セットしたいデータを配列として追加する
+      uid: currentUser.uid,
+      text,
+      amount,
+      date,
+      tag,
+    })
   }
 
   // FireStore 上の支出データを編集する

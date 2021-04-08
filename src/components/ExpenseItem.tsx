@@ -7,20 +7,16 @@ import { ItemDetail } from './ItemDetail'
 type ExpenseItemType = {
   deleteExpense: (docId: string) => void
   expenseItem: ItemsType
-  expenseItems: Array<ItemsType>
   expenseText: string
   expenseAmount: number
-  setExpenseItems: any
   categories: Array<string>
 }
 
 export const ExpenseItem = ({
   deleteExpense,
   expenseItem,
-  expenseItems,
   expenseText,
   expenseAmount,
-  setExpenseItems,
   categories,
 }: ExpenseItemType) => {
   // React-Modal でモーダルを使用するための useState()。
@@ -79,8 +75,6 @@ export const ExpenseItem = ({
           isOpen={isEditDialogOpen}
           onClose={closeEditDialog}
           expenseItem={expenseItem}
-          expenseItems={expenseItems}
-          setExpenseItems={setExpenseItems}
           categories={categories}
           key={expenseItem.docId}
         />

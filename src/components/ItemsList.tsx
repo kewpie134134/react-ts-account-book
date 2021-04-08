@@ -27,14 +27,12 @@ const useStyles = makeStyles((theme) => ({
 type ItemsDetailType = {
   deleteExpense: (docId: string) => void
   expenseItems: Array<ItemsType>
-  setExpenseItems: any
   categories: Array<string>
 }
 
 const ItemsDetail = ({
   deleteExpense,
   expenseItems,
-  setExpenseItems,
   categories,
 }: ItemsDetailType) => {
   const classes = useStyles()
@@ -58,11 +56,9 @@ const ItemsDetail = ({
           {expenseItems.map((expenseItem: ItemsType) => (
             <ExpenseItem
               deleteExpense={deleteExpense}
-              setExpenseItems={setExpenseItems}
               expenseText={expenseItem.text}
               expenseAmount={expenseItem.amount}
               expenseItem={expenseItem}
-              expenseItems={expenseItems}
               key={expenseItem.docId}
               categories={categories}
             />

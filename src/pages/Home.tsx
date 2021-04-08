@@ -218,8 +218,6 @@ const Home: React.FC = () => {
                 <ItemDetail
                   isOpen={isDialogOpen}
                   onClose={closeDialog}
-                  expenseItems={expenseItems}
-                  setExpenseItems={setExpenseItems}
                   categories={categories}
                 />
               </div>
@@ -230,7 +228,6 @@ const Home: React.FC = () => {
                 <ItemsList
                   deleteExpense={deleteExpense}
                   expenseItems={expenseItems}
-                  setExpenseItems={setExpenseItems}
                   categories={categories}
                 />
               </Paper>
