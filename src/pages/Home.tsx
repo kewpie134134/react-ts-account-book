@@ -17,16 +17,16 @@ import {
   makeStyles,
   Toolbar,
   Typography,
-  Drawer,
-  List,
-  Divider,
+  // Drawer,
+  // List,
+  // Divider,
   Grid,
   Paper,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import { mainListItems, secondaryListItems } from 'components/LeftListItems'
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+// import { mainListItems, secondaryListItems } from 'components/LeftListItems'
 import Container from '@material-ui/core/Container'
 // import Chart from 'components/Chart'
 import ItemsList from 'components/ItemsList'
@@ -132,7 +132,7 @@ const Home: React.FC = () => {
   const [date, setDate] = useState(new Date())
 
   // Material-UI で使用する UI パーツのための設定
-  const [open, setOpen] = useState<boolean>(false)
+  // const [open, setOpen] = useState<boolean>(false)
 
   // React-Modal でモーダルを使用するための useState()。
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
@@ -146,12 +146,12 @@ const Home: React.FC = () => {
   const { currentUser }: any = useContext(AuthContext)
 
   // Material-UI で、左メニューの開閉をハンドリングする関数
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
+  // const handleDrawerOpen = () => {
+  //   setOpen(true)
+  // }
+  // const handleDrawerClose = () => {
+  //   setOpen(false)
+  // }
 
   // CSS デザインで多用するクラス名のため、インスタンスを作成
   // 残高画面で使用していたが、一時的にコメントアウトとする。
@@ -371,17 +371,18 @@ const Home: React.FC = () => {
       {/* Home 画面の上部をデザイン */}
       <AppBar
         position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
+        // className={clsx(classes.appBar, open && classes.appBarShift)
+        className={clsx(classes.appBar)}
       >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            // onClick={handleDrawerOpen}
             className={clsx(
               classes.menuButton,
-              open && classes.menuButtonHidden,
+              // open && classes.menuButtonHidden,
             )}
           >
             <MenuIcon />
@@ -404,7 +405,7 @@ const Home: React.FC = () => {
       </AppBar>
 
       {/* 左メニューページをデザイン */}
-      <Drawer
+      {/* <Drawer
         variant="permanent"
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -420,7 +421,7 @@ const Home: React.FC = () => {
         <List>{mainListItems}</List>
         <Divider />
         <List>{secondaryListItems}</List>
-      </Drawer>
+      </Drawer> */}
 
       {/* メインページをデザイン */}
       <main className={classes.content}>
