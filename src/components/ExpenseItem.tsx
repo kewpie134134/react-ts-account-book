@@ -43,7 +43,7 @@ export const ExpenseItem = ({
     setIsEditDialogOpen(false)
   }
 
-  const arrayToString = (expenseItemTags: Array<string>) => {
+  const arrayTagsToString = (expenseItemTags: Array<string>) => {
     if (expenseItemTags) {
       return expenseItemTags.join(',')
     } else {
@@ -56,9 +56,9 @@ export const ExpenseItem = ({
     <TableRow>
       <TableCell>{expenseText}</TableCell>
       <TableCell align="right">
-        <div>-{Number(expenseAmount).toLocaleString()}円</div>
+        <div>{Number(expenseAmount).toLocaleString()}円</div>
       </TableCell>
-      <TableCell align="right">{arrayToString(expenseItem.tag)}</TableCell>
+      <TableCell align="right">{arrayTagsToString(expenseItem.tag)}</TableCell>
       <TableCell align="right">
         <button onClick={openDeleteDialog}>X</button>
         <ConfirmDeleteItem
