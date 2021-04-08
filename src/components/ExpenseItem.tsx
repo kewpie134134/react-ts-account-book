@@ -21,9 +21,6 @@ export const ExpenseItem = ({
   expenseItem,
   expenseText,
   expenseAmount,
-  incomeTotal,
-  thisMonth,
-  selectedMonth,
 }: ExpenseItemType) => {
   // React-Modal でモーダルを使用するための useState()。
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false)
@@ -47,14 +44,6 @@ export const ExpenseItem = ({
     setIsEditDialogOpen(false)
   }
 
-  const percentage = () => {
-    if (incomeTotal > 0) {
-      return `${Math.round((expenseAmount / incomeTotal) * 100)} %`
-    } else {
-      return '---'
-    }
-  }
-
   const arrayToString = (expenseItemTags: Array<string>) => {
     if (expenseItemTags) {
       return expenseItemTags.join(',')
@@ -63,48 +52,35 @@ export const ExpenseItem = ({
     }
   }
 
-  const showThisMonth = () => {
-    return (
-      // TODO: ★ <Table key={---.id}> <- この id を設定するかが課題
-      <TableRow>
-        <TableCell>{expenseText}</TableCell>
-        <TableCell align="right">
-          <div>-{Number(expenseAmount).toLocaleString()}円</div>
-        </TableCell>
-        <TableCell align="right">{arrayToString(expenseItem.tag)}</TableCell>
-        <TableCell align="right">
-          <button onClick={openDeleteDialog}>X</button>
-          <ConfirmDeleteItem
-            isOpen={isDeleteDialogOpen}
-            onClose={closeDeleteDialog}
-            expenseItem={expenseItem}
-            deleteExpense={deleteExpense}
-          />
-        </TableCell>
-        {/* パーセンテージ表示は不要のため、コメントアウト */}
-        {/* <TableCell align="right">{percentage()}</TableCell> */}
-        {/* 編集用ダイアログを表示する。 */}
-        <TableCell align="right">
-          <button onClick={openEditDialog}>✎</button>
-          <EditItem
-            isOpen={isEditDialogOpen}
-            onClose={closeEditDialog}
-            expenseItem={expenseItem}
-            editExpense={editExpense}
-          />
-        </TableCell>
-      </TableRow>
-    )
-  }
-
-  const showPastMonth = () => {
-    return (
-      <li>
-        <div>{expenseText}</div>
+  return (
+    // TODO: ★ <Table key={---.id}> <- この id を設定するかが課題
+    <TableRow>
+      <TableCell>{expenseText}</TableCell>
+      <TableCell align="right">
         <div>-{Number(expenseAmount).toLocaleString()}円</div>
-        <span>{percentage()}</span>
-      </li>
-    )
-  }
-  return <>{thisMonth === selectedMonth ? showThisMonth() : showPastMonth()}</>
+      </TableCell>
+      <TableCell align="right">{arrayToString(expenseItem.tag)}</TableCell>
+      <TableCell align="right">
+        <button onClick={openDeleteDialog}>X</button>
+        <ConfirmDeleteItem
+          isOpen={isDeleteDialogOpen}
+          onClose={closeDeleteDialog}
+          expenseItem={expenseItem}
+          deleteExpense={deleteExpense}
+        />
+      </TableCell>
+      {/* パーセンテージ表示は不要のため、コメントアウト */}
+      {/* <TableCell align="right">{percentage()}</TableCell> */}
+      {/* 編集用ダイアログを表示する。 */}
+      <TableCell align="right">
+        <button onClick={openEditDialog}>✎</button>
+        <EditItem
+          isOpen={isEditDialogOpen}
+          onClose={closeEditDialog}
+          expenseItem={expenseItem}
+          editExpense={editExpense}
+        />
+      </TableCell>
+    </TableRow>
+  )
 }

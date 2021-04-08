@@ -7,7 +7,6 @@ import {
   TableRow,
   Link,
 } from '@material-ui/core'
-import { IncomeItem } from 'components/IncomeItem'
 import { ExpenseItem } from 'components/ExpenseItem'
 import { ItemsType } from 'pages/Home'
 import Title from './Title'
@@ -37,10 +36,8 @@ type ItemsDetailType = {
 }
 
 const ItemsDetail = ({
-  deleteIncome,
   deleteExpense,
   editExpense,
-  incomeItems,
   expenseItems,
   incomeTotal,
   selectedMonth,
@@ -49,36 +46,6 @@ const ItemsDetail = ({
   const classes = useStyles()
   return (
     <>
-      <Title>収入一覧</Title>
-      <Table size="small">
-        <TableHead>
-          {/* テーブルのタイトル表示部分 */}
-          <TableRow>
-            <TableCell>内容</TableCell>
-            <TableCell align="right">金額</TableCell>
-            <TableCell align="right">削除</TableCell>
-          </TableRow>
-        </TableHead>
-        {/* テーブルのメイン部分 */}
-        <TableBody>
-          {incomeItems.map((incomeItem: ItemsType) => (
-            <IncomeItem
-              deleteIncome={deleteIncome}
-              incomeText={incomeItem.text}
-              incomeAmount={incomeItem.amount}
-              incomeItem={incomeItem}
-              key={incomeItem.docId}
-              selectedMonth={selectedMonth}
-              thisMonth={thisMonth}
-            />
-          ))}
-        </TableBody>
-      </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          商品の詳細を表示する
-        </Link>
-      </div>
       <Title>商品の詳細（支出一覧）</Title>
       <Table size="small">
         <TableHead>

@@ -3,11 +3,9 @@ import { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase/Firebase'
 import firebase from 'firebase/app'
 import { AuthContext } from 'auth/AuthProvider'
-import { TotalAmount } from 'components/TotalAmount'
 import { totalCalcIncome, totalCalcExpense } from 'components/TotalCaluculation'
 import { Header } from 'components/Header'
 import { Balance } from 'components/Balance'
-import { AddItem } from 'components/AddItems'
 import { Footer } from 'components/Footer'
 import {
   AppBar,
@@ -17,101 +15,14 @@ import {
   makeStyles,
   Toolbar,
   Typography,
-  // Drawer,
-  // List,
-  // Divider,
   Grid,
   Paper,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-// import { mainListItems, secondaryListItems } from 'components/LeftListItems'
 import Container from '@material-ui/core/Container'
-// import Chart from 'components/Chart'
 import ItemsList from 'components/ItemsList'
 import { ItemDetail } from 'components/ItemDetail'
-
-const drawerWidth: number = 240
-
-const useStyles = makeStyles((theme: any) => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-  },
-  container: {
-    paddiingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
-}))
 
 // 配列の型を定義する型定義
 export type ItemsType = {
@@ -125,15 +36,9 @@ export type ItemsType = {
 
 const Home: React.FC = () => {
   // 親コンポーネント（Home.js）から子コンポーネントに渡すステートたち
-  const [inputText, setInputText] = useState<string>('')
-  const [inputAmount, setInputAmount] = useState<number>(0)
   const [incomeItems, setIncomeItems] = useState<ItemsType[]>([])
   const [expenseItems, setExpenseItems] = useState<ItemsType[]>([])
-  const [type, setType] = useState('income')
   const [date, setDate] = useState(new Date())
-
-  // Material-UI で使用する UI パーツのための設定
-  // const [open, setOpen] = useState<boolean>(false)
 
   // React-Modal でモーダルを使用するための useState()。
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
@@ -145,18 +50,6 @@ const Home: React.FC = () => {
   // useContext で取得する。
   // TODO: ★ 型定義 を精査したい（難解のため、将来検討）
   const { currentUser }: any = useContext(AuthContext)
-
-  // Material-UI で、左メニューの開閉をハンドリングする関数
-  // const handleDrawerOpen = () => {
-  //   setOpen(true)
-  // }
-  // const handleDrawerClose = () => {
-  //   setOpen(false)
-  // }
-
-  // CSS デザインで多用するクラス名のため、インスタンスを作成
-  // 残高画面で使用していたが、一時的にコメントアウトとする。
-  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
   // 収入・出費データを取得するタイミングは useEffect を使用する。
   // "date" が更新されるたび実行してほしいため、useEffect を使用する。
@@ -238,47 +131,6 @@ const Home: React.FC = () => {
       })
   }
 
-  // Firestore に収入データを追加する
-  // 収入 income 用の関数 addIncome を用意する。
-  // 引数にはユーザーが入力した text と amount を渡す。
-  const addIncome = (text: string, amount: number) => {
-    // docId をこちら側で、ランダム文字列を使用して作成する。
-    // docId はユーザーが削除ボタン選択時、データを削除するときの値として使用。
-    // （react 側で連動させたいので、フロント側で手動で作成する。）
-    // （上記の時、数値だとエラーになるため、文字列を使用している。）
-    // ※ 手動で作成しない場合は、".set" や ".add" で自動生成可能。
-    const docId = Math.random().toString(32).substring(2)
-    // 収入リストが順番に並べられるようにタイムスタンプを作成
-    // -> 入力時間が登録される firebase の関数。
-    const date = firebase.firestore.Timestamp.now()
-    const tag = ['タグ1', 'タグ2']
-    // どこの collection の document に追加するかは、firebase の関数で定義。
-    db.collection('incomeItems')
-      .doc(docId)
-      .set({
-        // セットしたいデータを配列として追加する
-        uid: currentUser.uid,
-        text,
-        amount,
-        date,
-        tag,
-      })
-      // セットした値を react 側の incomeItems に更新する
-      .then(() => {
-        setIncomeItems([
-          ...incomeItems,
-          {
-            text: inputText,
-            amount: inputAmount,
-            docId: docId,
-            date: date,
-            uid: currentUser.uid,
-            tag: tag,
-          },
-        ])
-      })
-  }
-
   // FireStore 上の incomeItems コレクションで、docId に該当するアイテムを削除する。
   const deleteIncome = (docId: string) => {
     db.collection('incomeItems').doc(docId).delete()
@@ -311,36 +163,6 @@ const Home: React.FC = () => {
           })
         })
         setExpenseItems(expenseItems)
-      })
-  }
-
-  // FireStore に出費データを追加する。
-  // 内容は addIncome と同じ。
-  const addExpense = (text: string, amount: number) => {
-    const docId = Math.random().toString(32).substring(2)
-    const date = firebase.firestore.Timestamp.now()
-    const tag = ['TAG1', 'TAG2']
-    db.collection('expenseItems')
-      .doc(docId)
-      .set({
-        uid: currentUser.uid,
-        text,
-        amount,
-        date,
-        tag,
-      })
-      .then(() => {
-        setExpenseItems([
-          ...expenseItems,
-          {
-            text: inputText,
-            amount: inputAmount,
-            docId: docId,
-            date: date,
-            uid: currentUser.uid,
-            tag: tag,
-          },
-        ])
       })
   }
 
@@ -413,25 +235,6 @@ const Home: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      {/* 左メニューページをデザイン */}
-      {/* <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer> */}
-
       {/* メインページをデザイン */}
       <main className={classes.content}>
         {/* props で date と setPrevMonth、setNextMonth を Header.tsx に渡す */}
@@ -443,45 +246,23 @@ const Home: React.FC = () => {
         />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* チャート画面 */}
-            {/* <Grid item xs={12} md={8} lg={9}> */}
-            {/* <Grid item xs={12}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid> */}
             {/* 残高画面 */}
             <Grid item xs={12}>
-              {/* <Paper className={fixedHeightPaper}> */}
               <Paper className={classes.paper}>
-                <Balance
-                  incomeTotal={incomeTotal}
-                  expenseTotal={expenseTotal}
-                />
-                <TotalAmount
-                  incomeTotal={incomeTotal}
-                  expenseTotal={expenseTotal}
-                />
+                <Balance expenseTotal={expenseTotal} />
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <div>
-                <button onClick={openDialog}>モーダルテスト</button>
-                <ItemDetail isOpen={isDialogOpen} onClose={closeDialog} />
+                <button onClick={openDialog}>新規追加</button>
+                <ItemDetail
+                  isOpen={isDialogOpen}
+                  onClose={closeDialog}
+                  expenseItems={expenseItems}
+                  setExpenseItems={setExpenseItems}
+                />
               </div>
             </Grid>
-            <AddItem
-              addIncome={addIncome}
-              addExpense={addExpense}
-              inputText={inputText}
-              setInputText={setInputText}
-              inputAmount={inputAmount}
-              setInputAmount={setInputAmount}
-              type={type}
-              setType={setType}
-              selectedMonth={selectedMonth}
-              thisMonth={thisMonth}
-            />
             {/* 購入品詳細画面 */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
@@ -504,5 +285,86 @@ const Home: React.FC = () => {
     </div>
   )
 }
+
+const drawerWidth: number = 240
+
+const useStyles = makeStyles((theme: any) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9),
+    },
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddiingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  fixedHeight: {
+    height: 240,
+  },
+}))
 
 export default Home

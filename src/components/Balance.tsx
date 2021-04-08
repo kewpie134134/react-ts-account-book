@@ -3,7 +3,6 @@ import { Typography, Link } from '@material-ui/core'
 import Title from 'components/Title'
 
 type BalanceType = {
-  incomeTotal: number
   expenseTotal: number
 }
 
@@ -20,16 +19,16 @@ const preventDefault = (event: any) => {
   event.preventDefault()
 }
 
-export const Balance = ({ incomeTotal, expenseTotal }: BalanceType) => {
+export const Balance = ({ expenseTotal }: BalanceType) => {
   // 残高計算
-  const balance = incomeTotal - expenseTotal
+  const balance = expenseTotal
 
   // Material-UI をデザインするための宣言
   const classes = useStyles()
 
   return (
     <>
-      <Title>残高</Title>
+      <Title>今月の使用金額</Title>
       <Typography component="p" variant="h4">
         {Number(balance).toLocaleString()}
         <span> 円</span>
