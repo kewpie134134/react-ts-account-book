@@ -160,7 +160,7 @@ export const ItemDetail = ({
         contentLabel="Settings"
       >
         <form onSubmit={handleSubmit}>
-          <label>以下の内容で修正しますか？</label>
+          <label>商品名と金額を入力してください。</label>
           {/* text の値と amount の値は onChange で取得する */}
           <div>
             <label>内容</label>
