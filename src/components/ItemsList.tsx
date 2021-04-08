@@ -12,62 +12,6 @@ import { ExpenseItem } from 'components/ExpenseItem'
 import { ItemsType } from 'pages/Home'
 import Title from './Title'
 
-// // 仮の商品詳細データオブジェクトを作成する関数
-// const createData = (
-//   id: number,
-//   date: string,
-//   name: string,
-//   shipTo: string,
-//   paymentMethod: string,
-//   amount: number,
-// ) => {
-//   return { id, date, name, shipTo, paymentMethod, amount }
-// }
-
-// // 仮のデータを作成
-// const rows = [
-//   createData(
-//     0,
-//     '16 Mar, 2019',
-//     'Elvis Presley',
-//     'Tupelo, MS',
-//     'VISA ⠀•••• 3719',
-//     312.44,
-//   ),
-//   createData(
-//     1,
-//     '16 Mar, 2019',
-//     'Paul McCartney',
-//     'London, UK',
-//     'VISA ⠀•••• 2574',
-//     866.99,
-//   ),
-//   createData(
-//     2,
-//     '16 Mar, 2019',
-//     'Tom Scholz',
-//     'Boston, MA',
-//     'MC ⠀•••• 1253',
-//     100.81,
-//   ),
-//   createData(
-//     3,
-//     '16 Mar, 2019',
-//     'Michael Jackson',
-//     'Gary, IN',
-//     'AMEX ⠀•••• 2000',
-//     654.39,
-//   ),
-//   createData(
-//     4,
-//     '15 Mar, 2019',
-//     'Bruce Springsteen',
-//     'Long Branch, NJ',
-//     'VISA ⠀•••• 5919',
-//     212.79,
-//   ),
-// ]
-
 // 商品情報の詳細を把握するためのリンクに貼るものだが、
 // 現状は未作成のため、画面遷移しないための関数を仮実装。
 const preventDefault = (event: any) => {
@@ -84,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 type ItemsDetailType = {
   deleteIncome: (docId: string) => void
   deleteExpense: (docId: string) => void
+  editExpense: (text: string, amount: number, docId: string) => void
   incomeItems: Array<ItemsType>
   expenseItems: Array<ItemsType>
   incomeTotal: number
@@ -94,6 +39,7 @@ type ItemsDetailType = {
 const ItemsDetail = ({
   deleteIncome,
   deleteExpense,
+  editExpense,
   incomeItems,
   expenseItems,
   incomeTotal,
@@ -141,7 +87,8 @@ const ItemsDetail = ({
             <TableCell>内容</TableCell>
             <TableCell align="right">金額</TableCell>
             <TableCell align="right">削除</TableCell>
-            <TableCell align="right">割合</TableCell>
+            <TableCell align="right">編集</TableCell>
+            {/* <TableCell align="right">割合</TableCell> */}
           </TableRow>
         </TableHead>
         {/* テーブルのメイン部分 */}
@@ -149,6 +96,7 @@ const ItemsDetail = ({
           {expenseItems.map((expenseItem: ItemsType) => (
             <ExpenseItem
               deleteExpense={deleteExpense}
+              editExpense={editExpense}
               expenseText={expenseItem.text}
               expenseAmount={expenseItem.amount}
               expenseItem={expenseItem}
