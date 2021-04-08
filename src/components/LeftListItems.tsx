@@ -13,6 +13,7 @@ import AssignmentIcon from '@material-ui/icons/Assessment'
 
 /**
  * ホーム画面の左メニューに表示させるアイコンたちを表示させるリスト
+ * ※ TODO: 現状使用されていないため削除予定
  */
 export const mainListItems = (
   <div>
