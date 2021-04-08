@@ -52,7 +52,7 @@ export const ItemDetail = ({
         date,
         tag,
       })
-      // セットした値を react 側の incomeItems に更新する
+      // セットした値を react 側の expenseItems に更新する
       .then(() => {
         setExpenseItems([
           ...expenseItems,

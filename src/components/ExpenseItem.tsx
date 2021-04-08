@@ -10,7 +10,6 @@ type ExpenseItemType = {
   expenseItem: ItemsType
   expenseText: string
   expenseAmount: number
-  incomeTotal: number
   thisMonth: number
   selectedMonth: number
 }

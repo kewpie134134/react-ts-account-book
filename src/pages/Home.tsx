@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase/Firebase'
 import firebase from 'firebase/app'
 import { AuthContext } from 'auth/AuthProvider'
-import { totalCalcIncome, totalCalcExpense } from 'components/TotalCaluculation'
+import { totalCalcExpense } from 'components/TotalCaluculation'
 import { Header } from 'components/Header'
 import { Balance } from 'components/Balance'
 import { Footer } from 'components/Footer'
@@ -36,7 +36,6 @@ export type ItemsType = {
 
 const Home: React.FC = () => {
   // 親コンポーネント（Home.js）から子コンポーネントに渡すステートたち
-  const [incomeItems, setIncomeItems] = useState<ItemsType[]>([])
   const [expenseItems, setExpenseItems] = useState<ItemsType[]>([])
   const [date, setDate] = useState(new Date())
 
@@ -54,7 +53,6 @@ const Home: React.FC = () => {
   // 収入・出費データを取得するタイミングは useEffect を使用する。
   // "date" が更新されるたび実行してほしいため、useEffect を使用する。
   useEffect(() => {
-    getIncomeData()
     getExpenseData()
     // date の値を確認してデータを取得するため、date は必要。
     // TODO：ここで date が本当に必要か確認
@@ -96,14 +94,13 @@ const Home: React.FC = () => {
   const thisMonth = today.getMonth() + 1
 
   // Firestore からデータをとってきてアプリ上で表示させる。
-  // 取得したいデータの Income 用の関数 getIncomeData を作成。
+  // 取得したいデータの Expense 用の関数 getExpenseData を作成する。
   // Firebase からデータを取得し、アプリ上で表示させる
-  const getIncomeData = () => {
-    // コレクション "incomeItems" のドキュメントを取得し、変数 "incomeData"に代入する
-    const incomeData = db.collection('incomeItems')
-    // uid が現在のユーザーと一致する場合、startOfMonth~endOfMonthの
-    // ドキュメントを取得する
-    incomeData
+  const getExpenseData = () => {
+    // コレクション "expenseItems" のドキュメントを取得し、変数 "expenseData"に代入する
+    const expenseData = db.collection('expenseItems')
+    // uid が現在のユーザーと一致する場合、startOfMonth~endOfMonthのドキュメントを取得する
+    expenseData
       // whewe 句の書き方はこれが定義されている
       .where('uid', '==', currentUser.uid)
       // orderBy で date を昇順にしている
@@ -113,44 +110,8 @@ const Home: React.FC = () => {
       .startAt(startOfMonth(date))
       .endAt(endOfMonth(date))
       .onSnapshot((query) => {
-        const incomeItems: ItemsType[] = []
-        // incomeItems[] に それらの data と id をプッシュする
-        query.forEach((doc) => {
-          const docData = doc.data()
-          incomeItems.push({
-            amount: docData.amount,
-            text: docData.text,
-            uid: docData.uid,
-            date: docData.date,
-            docId: doc.id,
-            tag: docData.tag,
-          })
-        })
-        // react 側の incomeItems の配列を更新する
-        setIncomeItems(incomeItems)
-      })
-  }
-
-  // FireStore 上の incomeItems コレクションで、docId に該当するアイテムを削除する。
-  const deleteIncome = (docId: string) => {
-    db.collection('incomeItems').doc(docId).delete()
-  }
-
-  // % 合計と合計金を表示する
-  const incomeTotal = totalCalcIncome(incomeItems)
-
-  // Firestore からデータをとってきてアプリ上で表示させる。
-  // 取得したいデータの Expense 用の関数 getExpenseData を作成する。
-  // 内容は getExpenseDataと同じ
-  const getExpenseData = () => {
-    const expenseData = db.collection('expenseItems')
-    expenseData
-      .where('uid', '==', currentUser.uid)
-      .orderBy('date')
-      .startAt(startOfMonth(date))
-      .endAt(endOfMonth(date))
-      .onSnapshot((query) => {
         const expenseItems: ItemsType[] = []
+        // expenseItems[] に それらの data と id をプッシュする
         query.forEach((doc) => {
           const docData = doc.data()
           expenseItems.push({
@@ -162,6 +123,7 @@ const Home: React.FC = () => {
             tag: docData.tag,
           })
         })
+        // react 側の expenseItems の配列を更新する
         setExpenseItems(expenseItems)
       })
   }
@@ -267,11 +229,8 @@ const Home: React.FC = () => {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <ItemsList
-                  deleteIncome={deleteIncome}
                   deleteExpense={deleteExpense}
                   editExpense={editExpense}
-                  incomeTotal={incomeTotal}
-                  incomeItems={incomeItems}
                   expenseItems={expenseItems}
                   selectedMonth={selectedMonth}
                   thisMonth={thisMonth}

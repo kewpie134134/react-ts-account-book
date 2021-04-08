@@ -25,12 +25,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 type ItemsDetailType = {
-  deleteIncome: (docId: string) => void
   deleteExpense: (docId: string) => void
   editExpense: (text: string, amount: number, docId: string) => void
-  incomeItems: Array<ItemsType>
   expenseItems: Array<ItemsType>
-  incomeTotal: number
   selectedMonth: number
   thisMonth: number
 }
@@ -39,7 +36,6 @@ const ItemsDetail = ({
   deleteExpense,
   editExpense,
   expenseItems,
-  incomeTotal,
   selectedMonth,
   thisMonth,
 }: ItemsDetailType) => {
@@ -69,7 +65,6 @@ const ItemsDetail = ({
               expenseAmount={expenseItem.amount}
               expenseItem={expenseItem}
               key={expenseItem.docId}
-              incomeTotal={incomeTotal}
               selectedMonth={selectedMonth}
               thisMonth={thisMonth}
             />
